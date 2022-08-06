@@ -1,0 +1,2724 @@
+
+
+        *** GPGPU-Sim Simulator Version 4.0.0  [build gpgpu-sim_git-commit-_modified_] ***
+
+
+GPGPU-Sim PTX: simulation mode 0 (can change with PTX_SIM_MODE_FUNC environment variable:
+               1=functional simulation only, 0=detailed performance simulator)
+GPGPU-Sim PTX: overriding embedded ptx with ptx file (PTX_SIM_USE_PTX_FILE is set)
+GPGPU-Sim: Configuration options:
+
+-save_embedded_ptx                      0 # saves ptx files embedded in binary as <n>.ptx
+-keep                                   0 # keep intermediate files created by GPGPU-Sim when interfacing with external programs
+-gpgpu_ptx_save_converted_ptxplus                    0 # Saved converted ptxplus to a file
+-gpgpu_occupancy_sm_number                   70 # The SM number to pass to ptxas when getting register usage for computing GPU occupancy. This parameter is required in the config.
+-ptx_opcode_latency_int         4,13,4,5,145 # Opcode latencies for integers <ADD,MAX,MUL,MAD,DIV>Default 1,1,19,25,145
+-ptx_opcode_latency_fp          4,13,4,5,39 # Opcode latencies for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,30
+-ptx_opcode_latency_dp         8,19,8,8,330 # Opcode latencies for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,335
+-ptx_opcode_latency_sfu                  100 # Opcode latencies for SFU instructionsDefault 8
+-ptx_opcode_latency_tesnor                   64 # Opcode latencies for Tensor instructionsDefault 64
+-ptx_opcode_initiation_int            2,2,2,2,8 # Opcode initiation intervals for integers <ADD,MAX,MUL,MAD,DIV>Default 1,1,4,4,32
+-ptx_opcode_initiation_fp            2,2,2,2,4 # Opcode initiation intervals for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,5
+-ptx_opcode_initiation_dp          4,4,4,4,130 # Opcode initiation intervals for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,130
+-ptx_opcode_initiation_sfu                    8 # Opcode initiation intervals for sfu instructionsDefault 8
+-ptx_opcode_initiation_tensor                   64 # Opcode initiation intervals for tensor instructionsDefault 64
+-cdp_latency         7200,8000,100,12000,1600 # CDP API latency <cudaStreamCreateWithFlags, cudaGetParameterBufferV2_init_perWarp, cudaGetParameterBufferV2_perKernel, cudaLaunchDeviceV2_init_perWarp, cudaLaunchDevicV2_perKernel>Default 7200,8000,100,12000,1600
+-network_mode                           1 # Interconnection network mode
+-inter_config_file   config_volta_islip.icnt # Interconnection network config file
+-inct_in_buffer_limit                   64 # in_buffer_limit
+-inct_out_buffer_limit                   64 # out_buffer_limit
+-inct_subnets                           2 # subnets
+-gpgpu_ptx_use_cuobjdump                    1 # Use cuobjdump to extract ptx and sass from binaries
+-gpgpu_experimental_lib_support                    0 # Try to extract code from cuda libraries [Broken because of unknown cudaGetExportTable]
+-checkpoint_option                      0 #  checkpointing flag (0 = no checkpoint)
+-checkpoint_kernel                      1 #  checkpointing during execution of which kernel (1- 1st kernel)
+-checkpoint_CTA                         0 #  checkpointing after # of CTA (< less than total CTA)
+-resume_option                          0 #  resume flag (0 = no resume)
+-resume_kernel                          0 #  Resume from which kernel (1= 1st kernel)
+-resume_CTA                             0 #  resume from which CTA 
+-checkpoint_CTA_t                       0 #  resume from which CTA 
+-checkpoint_insn_Y                      0 #  resume from which CTA 
+-gpgpu_ptx_convert_to_ptxplus                    0 # Convert SASS (native ISA) to ptxplus and run ptxplus
+-gpgpu_ptx_force_max_capability                   70 # Force maximum compute capability
+-gpgpu_ptx_inst_debug_to_file                    0 # Dump executed instructions' debug information to file
+-gpgpu_ptx_inst_debug_file       inst_debug.txt # Executed instructions' debug output file
+-gpgpu_ptx_inst_debug_thread_uid                    1 # Thread UID for executed instructions' debug output
+-gpgpu_simd_model                       1 # 1 = post-dominator
+-gpgpu_shader_core_pipeline              2048:32 # shader core pipeline config, i.e., {<nthread>:<warpsize>}
+-gpgpu_tex_cache:l1  N:16:128:24,L:R:m:N:L,T:128:4,128:2 # per-shader L1 texture cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>:<rf>}
+-gpgpu_const_cache:l1 N:128:64:8,L:R:f:N:L,S:2:64,4 # per-shader L1 constant memory cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:il1     N:64:128:16,L:R:f:N:L,S:2:48,4 # shader L1 instruction cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:dl1     S:4:128:64,L:L:s:N:L,A:256:8,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-l1_latency                            28 # L1 Hit Latency
+-smem_latency                          19 # smem Latency
+-gpgpu_cache:dl1PrefL1                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_cache:dl1PrefShared                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gmem_skip_L1D                          0 # global memory access skip L1D cache (implements -Xptxas -dlcm=cg, default=no skip)
+-gpgpu_perfect_mem                      0 # enable perfect memory mode (no cache miss)
+-n_regfile_gating_group                    4 # group of lanes that should be read/written together)
+-gpgpu_clock_gated_reg_file                    0 # enable clock gated reg file for power calculations
+-gpgpu_clock_gated_lanes                    0 # enable clock gated lanes for power calculations
+-gpgpu_shader_registers                65536 # Number of registers per shader core. Limits number of concurrent CTAs. (default 8192)
+-gpgpu_registers_per_block                 8192 # Maximum number of registers per CTA. (default 8192)
+-gpgpu_ignore_resources_limitation                    0 # gpgpu_ignore_resources_limitation (default 0)
+-gpgpu_shader_cta                      32 # Maximum number of concurrent CTAs in shader (default 8)
+-gpgpu_num_cta_barriers                   16 # Maximum number of named barriers per CTA (default 16)
+-gpgpu_n_clusters                     110 # number of processing clusters
+-gpgpu_n_cores_per_cluster                    2 # number of simd cores per cluster
+-gpgpu_n_cluster_ejection_buffer_size                   32 # number of packets in ejection buffer
+-gpgpu_n_ldst_response_buffer_size                    2 # number of response packets in ld/st unit ejection buffer
+-gpgpu_shmem_per_block                49152 # Size of shared memory per thread block or CTA (default 48kB)
+-gpgpu_shmem_size                   16384 # Size of shared memory per shader core (default 16kB)
+-adaptive_volta_cache_config                    1 # adaptive_volta_cache_config
+-gpgpu_shmem_size                   98304 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefL1                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefShared                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_num_banks                   32 # Number of banks in the shared memory in each shader core (default 16)
+-gpgpu_shmem_limited_broadcast                    0 # Limit shared memory to do one broadcast per cycle (default on)
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-mem_unit_ports                         4 # The number of memory transactions allowed per core cycle
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_warpdistro_shader                   -1 # Specify which shader core to collect the warp size distribution from
+-gpgpu_warp_issue_shader                    0 # Specify which shader core to collect the warp issue distribution from
+-gpgpu_local_mem_map                    1 # Mapping from local memory space address to simulated GPU physical address space (default = enabled)
+-gpgpu_num_reg_banks                    8 # Number of register banks (default = 8)
+-gpgpu_reg_bank_use_warp_id                    0 # Use warp ID in mapping registers to banks (default = off)
+-sub_core_model                         1 # Sub Core Volta/Pascal model (default = off)
+-enable_specialized_operand_collector                    0 # enable_specialized_operand_collector
+-gpgpu_operand_collector_num_units_sp                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_dp                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_sfu                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_int                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_tensor_core                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_mem                    2 # number of collector units (default = 2)
+-gpgpu_operand_collector_num_units_gen                    8 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_in_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_coalesce_arch                   60 # Coalescing arch (GT200 = 13, Fermi = 20)
+-gpgpu_num_sched_per_core                    4 # Number of warp schedulers per core
+-gpgpu_max_insn_issue_per_warp                    1 # Max number of instructions that can be issued per warp in one cycle by scheduler (either 1 or 2)
+-gpgpu_dual_issue_diff_exec_units                    1 # should dual issue use two different execution unit resources (Default = 1)
+-gpgpu_simt_core_sim_order                    1 # Select the simulation order of cores in a cluster (0=Fix, 1=Round-Robin)
+-gpgpu_pipeline_widths 4,4,4,4,4,4,4,4,4,4,8,4,4 # Pipeline widths ID_OC_SP,ID_OC_DP,ID_OC_INT,ID_OC_SFU,ID_OC_MEM,OC_EX_SP,OC_EX_DP,OC_EX_INT,OC_EX_SFU,OC_EX_MEM,EX_WB,ID_OC_TENSOR_CORE,OC_EX_TENSOR_CORE
+-gpgpu_tensor_core_avail                    1 # Tensor Core Available (default=0)
+-gpgpu_num_sp_units                     4 # Number of SP units (default=1)
+-gpgpu_num_dp_units                     4 # Number of DP units (default=0)
+-gpgpu_num_int_units                    4 # Number of INT units (default=0)
+-gpgpu_num_sfu_units                    4 # Number of SF units (default=1)
+-gpgpu_num_tensor_core_units                    4 # Number of tensor_core units (default=1)
+-gpgpu_num_mem_units                    1 # Number if ldst units (default=1) WARNING: not hooked up to anything
+-gpgpu_scheduler     two_level_active:6:0:1 # Scheduler configuration: < lrr | gto | two_level_active > If two_level_active:<num_active_warps>:<inner_prioritization>:<outer_prioritization>For complete list of prioritization values see shader.h enum scheduler_prioritization_typeDefault: gto
+-gpgpu_concurrent_kernel_sm                    0 # Support concurrent kernels on a SM (default = disabled)
+-perf_sim_memcpy                        1 # Fill the L2 cache on memcpy
+-gpgpu_dram_scheduler                    1 # 0 = fifo, 1 = FR-FCFS (defaul)
+-gpgpu_dram_partition_queues          64:64:64:64 # i2$:$2d:d2$:$2i
+-l2_ideal                               0 # Use a ideal L2 cache that always hit
+-gpgpu_cache:dl2     S:4:128:16,L:B:m:L:L,A:192:4,32:0,32 # unified banked L2 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>}
+-gpgpu_cache:dl2_texture_only                    0 # L2 cache used for texture only
+-gpgpu_n_mem                            5 # number of memory modules (e.g. memory controllers) in gpu
+-gpgpu_n_sub_partition_per_mchannel                    2 # number of memory subpartition in each memory module
+-gpgpu_n_mem_per_ctrlr                    1 # number of memory chips per memory controller
+-gpgpu_memlatency_stat                   14 # track and display latency statistics 0x2 enables MC, 0x4 enables queue logs
+-gpgpu_frfcfs_dram_sched_queue_size                  128 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_return_queue_size                  384 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_buswidth                   32 # default = 4 bytes (8 bytes per cycle at DDR)
+-gpgpu_dram_burst_length                    2 # Burst length of each DRAM request (default = 4 data bus cycle)
+-dram_data_command_freq_ratio                    2 # Frequency ratio between DRAM data bus and command bus (default = 2 times, i.e. DDR)
+-gpgpu_dram_timing_opt nbk=16:CCD=1:RRD=3:RCD=12:RAS=28:RP=12:RC=40: CL=12:WL=2:CDLR=3:WR=10:nbkgrp=4:CCDL=2:RTPL=3 # DRAM timing parameters = {nbk:tCCD:tRRD:tRCD:tRAS:tRP:tRC:CL:WL:tCDLR:tWR:nbkgrp:tCCDL:tRTPL}
+-rop_latency                          120 # ROP queue latency (default 85)
+-dram_latency                         100 # DRAM latency (default 30)
+-dual_bus_interface                     1 # dual_bus_interface (default = 0) 
+-dram_bnk_indexing_policy                    0 # dram_bnk_indexing_policy (0 = normal indexing, 1 = Xoring with the higher bits) (Default = 0)
+-dram_bnkgrp_indexing_policy                    1 # dram_bnkgrp_indexing_policy (0 = take higher bits, 1 = take lower bits) (Default = 0)
+-Seperate_Write_Queue_Enable                    0 # Seperate_Write_Queue_Enable
+-Write_Queue_Size                32:28:16 # Write_Queue_Size
+-Elimnate_rw_turnaround                    0 # elimnate_rw_turnaround i.e set tWTR and tRTW = 0
+-icnt_flit_size                        40 # icnt_flit_size
+-gpgpu_mem_addr_mapping dramid@8;00000000.00000000.00000000.00000000.0000RRRR.RRRRRRRR.RBBBCCCB.CCCSSSSS # mapping memory address to dram model {dramid@<start bit>;<memory address map>}
+-gpgpu_mem_addr_test                    0 # run sweep test to check address mapping for aliased address
+-gpgpu_mem_address_mask                    1 # 0 = old addressing mask, 1 = new addressing mask, 2 = new add. mask + flipped bank sel and chip sel bits
+-memory_partition_indexing                    0 # 0 = no indexing, 1 = bitwise xoring, 2 = IPoly, 3 = custom indexing
+-gpuwattch_xml_file  gpuwattch_titanv.xml # GPUWattch XML file
+-power_simulation_enabled                    1 # Turn on power simulator (1=On, 0=Off)
+-power_per_cycle_dump                    0 # Dump detailed power output each cycle
+-power_trace_enabled                    0 # produce a file for the power trace (1=On, 0=Off)
+-power_trace_zlevel                     6 # Compression level of the power trace output log (0=no comp, 9=highest)
+-steady_power_levels_enabled                    0 # produce a file for the steady power levels (1=On, 0=Off)
+-steady_state_definition                  8:4 # allowed deviation:number of samples
+-gpgpu_max_cycle                        0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_insn                         0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_cta                          0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_runtime_stat                   500 # display runtime statistics such as dram utilization {<freq>:<flag>}
+-liveness_message_freq                    1 # Minimum number of seconds between simulation liveness messages (0 = always print)
+-gpgpu_compute_capability_major                    7 # Major compute capability version number
+-gpgpu_compute_capability_minor                    0 # Minor compute capability version number
+-gpgpu_flush_l1_cache                    1 # Flush L1 cache at the end of each kernel call
+-gpgpu_flush_l2_cache                    0 # Flush L2 cache at the end of each kernel call
+-gpgpu_deadlock_detect                    1 # Stop the simulation at deadlock (1=on (default), 0=off)
+-gpgpu_ptx_instruction_classification                    0 # if enabled will classify ptx instruction types per kernel (Max 255 kernels now)
+-gpgpu_ptx_sim_mode                     0 # Select between Performance (default) or Functional simulation (1)
+-gpgpu_clock_domains 1455.0:1455.0:1455.0:1000.0 # Clock Domain Frequencies in MhZ {<Core Clock>:<ICNT Clock>:<L2 Clock>:<DRAM Clock>}
+-gpgpu_max_concurrent_kernel                    8 # maximum kernels that can run concurrently on GPU
+-gpgpu_cflog_interval                    0 # Interval between each snapshot in control flow logger
+-visualizer_enabled                     0 # Turn on visualizer output (1=On, 0=Off)
+-visualizer_outputfile                 NULL # Specifies the output log file for visualizer
+-visualizer_zlevel                      6 # Compression level of the visualizer output log (0=no comp, 9=highest)
+-gpgpu_stack_size_limit                 1024 # GPU thread stack size
+-gpgpu_heap_size_limit              8388608 # GPU malloc heap size 
+-gpgpu_runtime_sync_depth_limit                    2 # GPU device runtime synchronize depth
+-gpgpu_runtime_pending_launch_count_limit                 2048 # GPU device runtime pending launch count
+-trace_enabled                          0 # Turn on traces
+-trace_components                    none # comma seperated list of traces to enable. Complete list found in trace_streams.tup. Default none
+-trace_sampling_core                    0 # The core which is printed using CORE_DPRINTF. Default 0
+-trace_sampling_memory_partition                   -1 # The memory partition which is printed using MEMPART_DPRINTF. Default -1 (i.e. all)
+-enable_ptx_file_line_stats                    1 # Turn on PTX source line statistic profiling. (1 = On)
+-ptx_line_stats_filename gpgpu_inst_stats.txt # Output file for PTX source line statistics.
+-gpgpu_kernel_launch_latency                    0 # Kernel launch latency in cycles. Default: 0
+-gpgpu_cdp_enabled                      0 # Turn on CDP
+DRAM Timing Options:
+nbk                                    16 # number of banks
+CCD                                     1 # column to column delay
+RRD                                     3 # minimal delay between activation of rows in different banks
+RCD                                    12 # row to column delay
+RAS                                    28 # time needed to activate row
+RP                                     12 # time needed to precharge (deactivate) row
+RC                                     40 # row cycle time
+CDLR                                    3 # switching from write to read (changes tWTR)
+WR                                     10 # last data-in to row precharge
+CL                                     12 # CAS latency
+WL                                      2 # Write latency
+nbkgrp                                  4 # number of bank groups
+CCDL                                    2 # column to column delay between accesses to different bank groups
+RTPL                                    3 # read to precharge delay between accesses to different bank groups
+Total number of memory sub partition = 10
+addr_dec_mask[CHIP]  = 0000000000000000 	high:64 low:0
+addr_dec_mask[BK]    = 0000000000007100 	high:15 low:8
+addr_dec_mask[ROW]   = 000000000fff8000 	high:28 low:15
+addr_dec_mask[COL]   = 0000000000000eff 	high:12 low:0
+addr_dec_mask[BURST] = 000000000000001f 	high:5 low:0
+sub_partition_id_mask = 0000000000000100
+GPGPU-Sim uArch: clock freqs: 1455000000.000000:1455000000.000000:1455000000.000000:1000000000.000000
+GPGPU-Sim uArch: clock periods: 0.00000000068728522337:0.00000000068728522337:0.00000000068728522337:0.00000000100000000000
+*** Initializing Memory Statistics ***
+GPGPU-Sim uArch: interconnect node map (shaderID+MemID to icntID)
+GPGPU-Sim uArch: Memory nodes ID start from index: 110
+GPGPU-Sim uArch:    0   1   2   3   4   5   6   7   8   9  10
+GPGPU-Sim uArch:   11  12  13  14  15  16  17  18  19  20  21
+GPGPU-Sim uArch:   22  23  24  25  26  27  28  29  30  31  32
+GPGPU-Sim uArch:   33  34  35  36  37  38  39  40  41  42  43
+GPGPU-Sim uArch:   44  45  46  47  48  49  50  51  52  53  54
+GPGPU-Sim uArch:   55  56  57  58  59  60  61  62  63  64  65
+GPGPU-Sim uArch:   66  67  68  69  70  71  72  73  74  75  76
+GPGPU-Sim uArch:   77  78  79  80  81  82  83  84  85  86  87
+GPGPU-Sim uArch:   88  89  90  91  92  93  94  95  96  97  98
+GPGPU-Sim uArch:   99 100 101 102 103 104 105 106 107 108 109
+GPGPU-Sim uArch:  110 111 112 113 114 115 116 117 118 119 120
+GPGPU-Sim uArch: interconnect node reverse map (icntID to shaderID+MemID)
+GPGPU-Sim uArch: Memory nodes start from ID: 110
+GPGPU-Sim uArch:    0   1   2   3   4   5   6   7   8   9  10
+GPGPU-Sim uArch:   11  12  13  14  15  16  17  18  19  20  21
+GPGPU-Sim uArch:   22  23  24  25  26  27  28  29  30  31  32
+GPGPU-Sim uArch:   33  34  35  36  37  38  39  40  41  42  43
+GPGPU-Sim uArch:   44  45  46  47  48  49  50  51  52  53  54
+GPGPU-Sim uArch:   55  56  57  58  59  60  61  62  63  64  65
+GPGPU-Sim uArch:   66  67  68  69  70  71  72  73  74  75  76
+GPGPU-Sim uArch:   77  78  79  80  81  82  83  84  85  86  87
+GPGPU-Sim uArch:   88  89  90  91  92  93  94  95  96  97  98
+GPGPU-Sim uArch:   99 100 101 102 103 104 105 106 107 108 109
+GPGPU-Sim uArch:  110 111 112 113 114 115 116 117 118 119 120
+88dbced0e641243fec0af4d70f2dd6f5  /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop
+Extracting PTX file and ptxas options    1: backprop.1.sm_30.ptx -arch=sm_30
+GPGPU-Sim uArch: performance model initialization complete.
+self exe links to: /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop
+self exe links to: /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop
+9.0
+GPGPU-Sim PTX: __cudaRegisterFatBinary, fat_cubin_handle = 1, filename=default
+self exe links to: /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop
+Running md5sum using "md5sum /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop "
+self exe links to: /scratch/wangsy/gpu-lab/rodinia-lab/cuda/backprop/backprop
+Extracting specific PTX file named backprop.1.sm_30.ptx 
+GPGPU-Sim PTX: __cudaRegisterFunction _Z24bpnn_adjust_weights_cudaPfiS_iS_S_ : hostFun 0x0x4020f0, fat_cubin_handle = 1
+GPGPU-Sim PTX: Parsing backprop.1.sm_30.ptx
+GPGPU-Sim PTX: allocating shared region for "_Z22bpnn_layerforward_CUDAPfS_S_S_ii$__cuda_local_var_16178_34_non_const_input_node" from 0x0 to 0x40 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_Z22bpnn_layerforward_CUDAPfS_S_S_ii$__cuda_local_var_16179_34_non_const_weight_matrix" from 0x80 to 0x480 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...   done.
+GPGPU-Sim PTX: instruction assembly for function '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...   done.
+GPGPU-Sim PTX: finished parsing EMBEDDED .ptx file backprop.1.sm_30.ptx
+GPGPU-Sim PTX: loading globals with explicit initializers... 
+GPGPU-Sim PTX: finished loading globals (0 bytes total).
+GPGPU-Sim PTX: loading constants with explicit initializers...  done.
+GPGPU-Sim PTX: Loading PTXInfo from backprop.1.sm_30.ptx
+GPGPU-Sim PTX: Kernel '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_' : regs=21, lmem=0, smem=0, cmem=376
+GPGPU-Sim PTX: Kernel '_Z22bpnn_layerforward_CUDAPfS_S_S_ii' : regs=15, lmem=0, smem=1088, cmem=360
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22bpnn_layerforward_CUDAPfS_S_S_ii : hostFun 0x0x402000, fat_cubin_handle = 1
+Random number generator seed: 7
+Input layer size : 65536
+Starting training kernel
+Performing GPU computation
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4ba8..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4ba0..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4b98..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4b90..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffe8fdc4b8c..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffe8fdc4b88..
+
+GPGPU-Sim PTX: cudaLaunch for 0x0x402000 (mode=performance simulation) on stream 0
+GPGPU-Sim PTX: finding reconvergence points for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: Finding dominators for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: Finding immediate dominators for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: Finding postdominators for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: Finding immediate postdominators for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: pre-decoding instructions for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'...
+GPGPU-Sim PTX: reconvergence points for _Z22bpnn_layerforward_CUDAPfS_S_S_ii...
+GPGPU-Sim PTX:  1 (potential) branch divergence @  PC=0x068 (backprop.1.sm_30.ptx:48) @%p2 bra BB0_2;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x098 (backprop.1.sm_30.ptx:57) cvta.to.global.u64 %rd1, %rd4;
+GPGPU-Sim PTX:  2 (potential) branch divergence @  PC=0x150 (backprop.1.sm_30.ptx:80) @%p3 bra BB0_7;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x228 (backprop.1.sm_30.ptx:115) setp.eq.s32%p1, %r4, 0;
+GPGPU-Sim PTX:  3 (potential) branch divergence @  PC=0x1a0 (backprop.1.sm_30.ptx:93) @%p4 bra BB0_6;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x200 (backprop.1.sm_30.ptx:108) bar.sync 0;
+GPGPU-Sim PTX:  4 (potential) branch divergence @  PC=0x220 (backprop.1.sm_30.ptx:112) @%p5 bra BB0_4;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x228 (backprop.1.sm_30.ptx:115) setp.eq.s32%p1, %r4, 0;
+GPGPU-Sim PTX:  5 (potential) branch divergence @  PC=0x248 (backprop.1.sm_30.ptx:119) @!%p1 bra BB0_9;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x290 (backprop.1.sm_30.ptx:132) ret;
+GPGPU-Sim PTX:  6 (potential) branch divergence @  PC=0x250 (backprop.1.sm_30.ptx:120) bra.uni BB0_8;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x258 (backprop.1.sm_30.ptx:123) cvta.to.global.u64 %rd10, %rd5;
+GPGPU-Sim PTX: ... end of reconvergence points for _Z22bpnn_layerforward_CUDAPfS_S_S_ii
+GPGPU-Sim PTX: ... done pre-decoding instructions for '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'.
+GPGPU-Sim PTX: pushing kernel '_Z22bpnn_layerforward_CUDAPfS_S_S_ii' to stream 0, gridDim= (1,4096,1) blockDim = (16,16,1) 
+GPGPU-Sim uArch: Shader 0 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: CTA/core = 8, limited by: threads
+GPGPU-Sim: Reconfigure L1 cache in Volta Archi to 112KB
+GPGPU-Sim uArch: Shader 2 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 4 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 6 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 8 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 10 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 12 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 14 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 16 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 18 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 20 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 22 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 24 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 26 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 28 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 30 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 32 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 34 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 36 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 38 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 40 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 42 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 44 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 46 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 48 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 50 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 52 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 54 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 56 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 58 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 60 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 62 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 64 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 66 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 68 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 70 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 72 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 74 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 76 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 78 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 80 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 82 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 84 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 86 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 88 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 90 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 92 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 94 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 96 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 98 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 100 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 102 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 104 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 106 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 108 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 110 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 112 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 114 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 116 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 118 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 120 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 122 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 124 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 126 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 128 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 130 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 132 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 134 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 136 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 138 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 140 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 142 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 144 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 146 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 148 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 150 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 152 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 154 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 156 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 158 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 160 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 162 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 164 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 166 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 168 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 170 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 172 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 174 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 176 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 178 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 180 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 182 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 184 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 186 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 188 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 190 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 192 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 194 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 196 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 198 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 200 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 202 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 204 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 206 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 208 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 210 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 212 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 214 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 216 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 218 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 1 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 3 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 5 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 7 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 9 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 11 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 13 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 15 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 17 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 19 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 21 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 23 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 25 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 27 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 29 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 31 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 33 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 35 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 37 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 39 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 41 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 43 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 45 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 47 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 49 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 51 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 53 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 55 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 57 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 59 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 61 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 63 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 65 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 67 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 69 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 71 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 73 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 75 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 77 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 79 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 81 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 83 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 85 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 87 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 89 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 91 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 93 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 95 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 97 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 99 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 101 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 103 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 105 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 107 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 109 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 111 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 113 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 115 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 117 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 119 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 121 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 123 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 125 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 127 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 129 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 131 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 133 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 135 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 137 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 139 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 141 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 143 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 145 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 147 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 149 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 151 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 153 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 155 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 157 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 159 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 161 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 163 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 165 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 167 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 169 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 171 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 173 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 175 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 177 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 179 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 181 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 183 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 185 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 187 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 189 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 191 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 193 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 195 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 197 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 199 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 201 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 203 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 205 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 207 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 209 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 211 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 213 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 215 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 217 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+GPGPU-Sim uArch: Shader 219 bind to kernel 1 '_Z22bpnn_layerforward_CUDAPfS_S_S_ii'
+Destroy streams for kernel 1: size 0
+kernel_name = _Z22bpnn_layerforward_CUDAPfS_S_S_ii 
+kernel_launch_uid = 1 
+gpu_sim_cycle = 110020
+gpu_sim_insn = 104923136
+gpu_ipc =     953.6733
+gpu_tot_sim_cycle = 110020
+gpu_tot_sim_insn = 104923136
+gpu_tot_ipc =     953.6733
+gpu_tot_issued_cta = 4096
+gpu_occupancy = 81.5475% 
+gpu_tot_occupancy = 81.5475% 
+max_total_param_size = 0
+gpu_stall_dramfull = 370971
+gpu_stall_icnt2sh    = 206700
+partiton_level_parallism =       3.2143
+partiton_level_parallism_total  =       3.2143
+partiton_level_parallism_util =       3.4449
+partiton_level_parallism_util_total  =       3.4449
+L2_BW  =     151.4279 GB/Sec
+L2_BW_total  =     151.4279 GB/Sec
+gpu_total_sim_rate=64847
+
+========= Core cache stats =========
+L1I_cache:
+	L1I_total_cache_accesses = 2203648
+	L1I_total_cache_misses = 36931
+	L1I_total_cache_miss_rate = 0.0168
+	L1I_total_cache_pending_hits = 0
+	L1I_total_cache_reservation_fails = 156124
+L1D_cache:
+	L1D_cache_core[0]: Access = 2450, Miss = 1575, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[1]: Access = 2548, Miss = 1638, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[2]: Access = 2548, Miss = 1638, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[3]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[4]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[5]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[6]: Access = 1862, Miss = 1193, Miss_rate = 0.641, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[7]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[8]: Access = 1568, Miss = 1007, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[9]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[10]: Access = 1568, Miss = 1007, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[11]: Access = 2548, Miss = 1638, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[12]: Access = 2548, Miss = 1638, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[13]: Access = 2646, Miss = 1701, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[14]: Access = 1862, Miss = 1196, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[15]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[16]: Access = 1862, Miss = 1196, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[17]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[18]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[19]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[20]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[21]: Access = 1568, Miss = 1007, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[22]: Access = 2744, Miss = 1764, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[23]: Access = 1960, Miss = 1260, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[24]: Access = 1960, Miss = 1260, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[25]: Access = 1862, Miss = 1197, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[26]: Access = 2058, Miss = 1323, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[27]: Access = 1862, Miss = 1197, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[28]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[29]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[30]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[31]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[32]: Access = 1568, Miss = 1008, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[33]: Access = 3136, Miss = 2018, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[34]: Access = 3136, Miss = 2016, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[35]: Access = 2352, Miss = 1512, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[36]: Access = 2254, Miss = 1449, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[37]: Access = 2646, Miss = 1701, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[38]: Access = 2156, Miss = 1386, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[39]: Access = 2156, Miss = 1386, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[40]: Access = 2156, Miss = 1385, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[41]: Access = 2254, Miss = 1448, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[42]: Access = 1862, Miss = 1197, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[43]: Access = 1862, Miss = 1197, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[44]: Access = 3234, Miss = 2080, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[45]: Access = 3332, Miss = 2142, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[46]: Access = 3136, Miss = 2017, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[47]: Access = 3136, Miss = 2016, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[48]: Access = 3136, Miss = 2016, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[49]: Access = 3136, Miss = 2017, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[50]: Access = 3136, Miss = 2018, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[51]: Access = 2646, Miss = 1701, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[52]: Access = 2744, Miss = 1761, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[53]: Access = 2352, Miss = 1508, Miss_rate = 0.641, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[54]: Access = 2156, Miss = 1386, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[55]: Access = 3920, Miss = 2521, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[56]: Access = 4312, Miss = 2772, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[57]: Access = 3528, Miss = 2268, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[58]: Access = 3332, Miss = 2142, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[59]: Access = 3430, Miss = 2205, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[60]: Access = 3234, Miss = 2082, Miss_rate = 0.644, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[61]: Access = 3136, Miss = 2016, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[62]: Access = 3136, Miss = 2017, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[63]: Access = 3136, Miss = 2017, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[64]: Access = 3136, Miss = 2012, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[65]: Access = 3136, Miss = 2015, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[66]: Access = 4704, Miss = 3025, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[67]: Access = 4704, Miss = 3025, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[68]: Access = 4704, Miss = 3025, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[69]: Access = 4606, Miss = 2961, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[70]: Access = 4508, Miss = 2899, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[71]: Access = 4606, Miss = 2961, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[72]: Access = 4410, Miss = 2836, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[73]: Access = 4410, Miss = 2837, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[74]: Access = 4410, Miss = 2836, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[75]: Access = 3626, Miss = 2331, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[76]: Access = 4018, Miss = 2583, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[77]: Access = 5488, Miss = 3528, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[78]: Access = 5782, Miss = 3717, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[79]: Access = 5390, Miss = 3467, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[80]: Access = 5096, Miss = 3276, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[81]: Access = 5096, Miss = 3276, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[82]: Access = 4802, Miss = 3088, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[83]: Access = 4900, Miss = 3151, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[84]: Access = 4802, Miss = 3088, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[85]: Access = 4704, Miss = 3024, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[86]: Access = 4802, Miss = 3088, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[87]: Access = 4704, Miss = 3024, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[88]: Access = 6566, Miss = 4222, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[89]: Access = 6272, Miss = 4034, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[90]: Access = 6370, Miss = 4098, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[91]: Access = 6076, Miss = 3910, Miss_rate = 0.644, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[92]: Access = 5880, Miss = 3780, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[93]: Access = 5586, Miss = 3592, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[94]: Access = 5390, Miss = 3469, Miss_rate = 0.644, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[95]: Access = 5586, Miss = 3591, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[96]: Access = 5880, Miss = 3780, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[97]: Access = 5292, Miss = 3402, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[98]: Access = 5684, Miss = 3654, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[99]: Access = 7448, Miss = 4789, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[100]: Access = 7546, Miss = 4855, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[101]: Access = 7252, Miss = 4665, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[102]: Access = 7154, Miss = 4603, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[103]: Access = 6762, Miss = 4350, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[104]: Access = 6468, Miss = 4159, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[105]: Access = 6664, Miss = 4286, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[106]: Access = 6566, Miss = 4224, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[107]: Access = 6762, Miss = 4349, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[108]: Access = 6370, Miss = 4091, Miss_rate = 0.642, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[109]: Access = 6468, Miss = 4158, Miss_rate = 0.643, Pending_hits = 0, Reservation_fails = 0
+	L1D_total_cache_accesses = 401408
+	L1D_total_cache_misses = 258086
+	L1D_total_cache_miss_rate = 0.6430
+	L1D_total_cache_pending_hits = 0
+	L1D_total_cache_reservation_fails = 0
+	L1D_cache_data_port_util = 0.002
+	L1D_cache_fill_port_util = 0.002
+L1C_cache:
+	L1C_total_cache_accesses = 131072
+	L1C_total_cache_misses = 14080
+	L1C_total_cache_miss_rate = 0.1074
+	L1C_total_cache_pending_hits = 0
+	L1C_total_cache_reservation_fails = 663004
+L1T_cache:
+	L1T_total_cache_accesses = 0
+	L1T_total_cache_misses = 0
+	L1T_total_cache_pending_hits = 0
+	L1T_total_cache_reservation_fails = 0
+
+Total_core_cache_stats:
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 40
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 107131
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 97629
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT] = 116992
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][MISS] = 14080
+	Total_core_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 663004
+	Total_core_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 143282
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 48609
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 4717
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT] = 2166717
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][MISS] = 36931
+	Total_core_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 156124
+	Total_core_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 204800
+	Total_core_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 131072
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 196608
+	Total_core_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 2203648
+
+Total_core_cache_fail_stats:
+	Total_core_cache_fail_stats_breakdown[CONST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 663004
+	Total_core_cache_fail_stats_breakdown[INST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 156124
+Shader 0 warp_id issue ditsribution:
+warp_id:
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 
+distro:
+298, 232, 254, 232, 276, 232, 254, 232, 149, 116, 127, 116, 138, 116, 127, 116, 298, 232, 254, 232, 276, 232, 254, 232, 298, 232, 254, 232, 276, 232, 254, 232, 298, 232, 254, 232, 276, 232, 254, 232, 298, 232, 254, 232, 276, 232, 254, 232, 298, 232, 254, 232, 276, 232, 254, 232, 149, 116, 127, 116, 138, 116, 127, 116, 
+gpgpu_n_tot_thrd_icount = 131727360
+gpgpu_n_tot_w_icount = 4116480
+gpgpu_n_stall_shd_mem = 933340
+gpgpu_n_mem_read_local = 0
+gpgpu_n_mem_write_local = 0
+gpgpu_n_mem_read_global = 155492
+gpgpu_n_mem_write_global = 196608
+gpgpu_n_mem_texture = 0
+gpgpu_n_mem_const = 220
+gpgpu_n_load_insn  = 1114112
+gpgpu_n_store_insn = 1114112
+gpgpu_n_shmem_insn = 8323072
+gpgpu_n_sstarr_insn = 0
+gpgpu_n_tex_insn = 0
+gpgpu_n_const_mem_insn = 0
+gpgpu_n_param_mem_insn = 4194304
+gpgpu_n_shmem_bkconflict = 0
+gpgpu_n_cache_bkconflict = 0
+gpgpu_n_intrawarp_mshr_merge = 0
+gpgpu_n_cmem_portconflict = 663004
+gpgpu_stall_shd_mem[c_mem][resource_stall] = 663004
+gpgpu_stall_shd_mem[s_mem][bk_conf] = 0
+gpgpu_stall_shd_mem[gl_mem][resource_stall] = 0
+gpgpu_stall_shd_mem[gl_mem][coal_stall] = 270336
+gpgpu_stall_shd_mem[gl_mem][data_port_stall] = 0
+gpu_reg_bank_conflict_stalls = 0
+Warp Occupancy Distribution:
+Stall:808844	W0_Idle:46967826	W0_Scoreboard:40025958	W1:0	W2:425984	W3:0	W4:0	W5:0	W6:0	W7:0	W8:0	W9:0	W10:0	W11:0	W12:0	W13:0	W14:0	W15:0	W16:675840	W17:0	W18:0	W19:0	W20:0	W21:0	W22:0	W23:0	W24:0	W25:0	W26:0	W27:0	W28:0	W29:0	W30:0	W31:0	W32:3014656
+single_issue_nums: WS0:1175552	WS1:950272	WS2:1040384	WS3:950272	
+dual_issue_nums: WS0:0	WS1:0	WS2:0	WS3:0	
+traffic_breakdown_coretomem[CONST_ACC_R] = 1760 {8:220,}
+traffic_breakdown_coretomem[GLOBAL_ACC_R] = 1243936 {8:155492,}
+traffic_breakdown_coretomem[GLOBAL_ACC_W] = 7864320 {40:196608,}
+traffic_breakdown_coretomem[INST_ACC_R] = 10560 {8:1320,}
+traffic_breakdown_memtocore[CONST_ACC_R] = 17600 {40:440,}
+traffic_breakdown_memtocore[GLOBAL_ACC_R] = 6219680 {40:155492,}
+traffic_breakdown_memtocore[GLOBAL_ACC_W] = 1572864 {8:196608,}
+traffic_breakdown_memtocore[INST_ACC_R] = 211200 {40:5280,}
+maxmflatency = 70541 
+max_icnt2mem_latency = 68703 
+maxmrqlatency = 1889 
+max_icnt2sh_latency = 9248 
+averagemflatency = 6465 
+avg_icnt2mem_latency = 4765 
+avg_mrq_latency = 170 
+avg_icnt2sh_latency = 1219 
+mrq_lat_table:9428 	12243 	4378 	5832 	11361 	29960 	35490 	39751 	33235 	12022 	850 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+dq_lat_table:0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_table:0 	0 	0 	0 	0 	0 	0 	25871 	33245 	44078 	34970 	41707 	100832 	45922 	14224 	9097 	2594 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2mem_lat_table:0 	0 	0 	10 	13936 	75920 	20186 	10011 	12897 	13902 	25120 	73187 	67159 	21571 	8929 	9420 	1392 	0 	0 	0 	0 	0 	0 	0 	
+icnt2sh_lat_table:0 	0 	0 	5498 	29147 	34741 	19658 	20281 	37646 	57673 	63433 	72215 	11887 	361 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_pw_table:0 	0 	0 	0 	0 	0 	0 	2 	5 	1 	4 	13 	159 	29 	5 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+maximum concurrent accesses to same row:
+dram[0]:        30        24        25        32        28        24        19        31        20        27        25        26        24        30        30        27 
+dram[1]:        24        30        33        44        37        32        36        38        24        38        32        34        26        32        32        32 
+dram[2]:        32        24        27        38        32        40        29        37        24        38        32        32        32        32        32        32 
+dram[3]:        34        26        38        48        24        34        31        32        34        31        30        33        33        32        27        26 
+dram[4]:        29        32        37        32        29        38        29        32        34        31        26        24        24        32        29        31 
+maximum service time to same row:
+dram[0]:      2851      2311      2704      2275      2745      2528      3012      2489      3232      2708      3271      2686      2781      2470      2967      2393 
+dram[1]:      2228      2275      2251      2238      2248      2262      3225      2477      2791      2900      2793      2848      2371      2330      2430      2379 
+dram[2]:      2240      2353      2289      2254      3200      2310      3207      2512      3157      2845      2721      3253      2516      2343      2468      2441 
+dram[3]:      2330      2312      2295      2304      2311      2329      2506      2522      2819      2855      2724      2820      2305      2398      2337      2445 
+dram[4]:      2371      2269      2267      2941      2311      2299      2474      2475      2774      2787      2822      2750      2263      2280      2256      2388 
+average row accesses per activate:
+dram[0]:  4.378521  4.133111  4.362832  4.064145  4.183534  4.334519  4.225862  4.352837  4.124579  4.448463  4.255319  4.167530  4.088481  4.129412  4.194585  4.073650 
+dram[1]:  4.346552  4.457038  4.473297  4.365942  4.724951  4.609524  4.524436  4.487941  4.418182  4.973141  4.404059  4.337591  4.306452  4.449356  4.404676  4.540741 
+dram[2]:  4.435853  4.516667  4.438532  4.392015  4.541510  4.530189  4.488806  4.653101  4.699219  4.944099  4.536398  4.452830  4.269982  4.359206  4.575472  4.322124 
+dram[3]:  4.512059  4.526902  4.539474  4.776237  4.548023  4.788845  4.452206  4.559322  4.385321  4.611855  4.333941  4.540952  4.468519  4.418182  4.481617  4.425225 
+dram[4]:  4.531531  4.610169  4.553505  4.422867  4.536765  4.734252  4.776493  4.601905  4.548803  4.583650  4.408680  4.544592  4.333333  4.299296  4.604089  4.639623 
+average row locality = 194550/43727 = 4.449196
+number of total memory accesses made:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total accesses: 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+number of total read accesses:
+dram[0]:      1937      1925      1924      1928      1921      1918      1909      1906      1904      1908      1839      1853      1893      1905      1927      1931 
+dram[1]:      1994      1910      1912      1892      1902      1902      1897      1888      1895      1880      1828      1833      1864      1875      1903      1903 
+dram[2]:      2000      1902      1901      1899      1901      1894      1892      1889      1891      1867      1826      1824      1866      1868      1897      1900 
+dram[3]:      1894      1901      1893      1900      1898      1893      1897      1888      1873      1884      1831      1845      1865      1882      1892      1906 
+dram[4]:      1923      1911      1916      1907      1918      1892      1907      1897      1896      1879      1858      1844      1897      1895      1915      1917 
+total dram reads = 151537
+bank skew: 2000/1824 = 1.10
+chip skew: 30528/30142 = 1.01
+number of total write accesses:
+dram[0]:       550       559       541       543       518       518       542       549       546       552       561       560       556       552       552       558 
+dram[1]:       527       528       517       518       503       518       510       531       535       527       559       544       539       541       546       549 
+dram[2]:       524       537       518       521       506       507       514       512       515       521       542       536       538       547       528       542 
+dram[3]:       538       539       522       512       517       511       525       533       517       528       544       539       548       548       546       550 
+dram[4]:       592       537       552       530       550       513       572       519       574       532       580       551       586       547       562       542 
+total dram writes = 43013
+bank skew: 592/503 = 1.18
+chip skew: 8839/8408 = 1.05
+average mf latency per bank:
+dram[0]:      25150     25179     24739     26145     23287     22938     23666     24287     24214     24011     27470     28218     25331     25598     25258     25527
+dram[1]:      10846      6224     11461      5037      9624      5078     10462      5136     11204      4618     11784      6592     11194      5113     10558      5664
+dram[2]:       6192      4463      6573      3994      5019      4232      5419      3709      5925      3493      6324      4186      5904      3490      5052      3555
+dram[3]:       4928      5934      4426      6108      4223      6160      3995      5805      3946      5880      4575      6480      4672      6072      4025      5841
+dram[4]:      16916     13265     16758     12938     15441     12911     15972     13010     16050     13980     18590     14481     17189     13506     16040     13510
+maximum mf latency per bank:
+dram[0]:      68839     70064     67969     69374     67582     70006     69904     70262     69900     70541     69391     70461     68030     69499     67965     69626
+dram[1]:      61672     60317     60583     58368     60381     60237     62514     60449     62657     60505     62503     56654     62108     60046     58788     59523
+dram[2]:      58494     57179     58340     56998     53779     57287     59394     57224     59445     41905     59233     56960     58344     57256     58395     49281
+dram[3]:      56530     38454     56101     34803     51391     52882     55991     52550     40780     25843     55016     37138     55799     40500     56408     55039
+dram[4]:      55359     40339     54231     37486     53681     40752     55300     40623     54228     40672     54759     39033     55505     39010     54087     34463
+Memory Partition 0: 
+Cache L2_bank_000:
+MSHR contents
+
+Cache L2_bank_001:
+MSHR contents
+
+In Dram Latency Queue (total = 1): 
+Ready @ 110064 -   mf: uid=3603993, sid4294967295:w4294967295, part=0, addr=0xc04b4900, store, size=64, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (109964), 
+DRAM[0]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=75615 n_nop=23053 n_act=9316 n_pre=9302 n_ref_event=0 n_req=39285 n_rd=30528 n_rd_L2_A=0 n_write=0 n_wr_bk=15650 bw_util=0.6107
+n_activity=72984 dram_eff=0.6327
+bk0: 1937a 35610i bk1: 1925a 32866i bk2: 1924a 35574i bk3: 1928a 33910i bk4: 1921a 35501i bk5: 1918a 36132i bk6: 1909a 35747i bk7: 1906a 34917i bk8: 1904a 34614i bk9: 1908a 34941i bk10: 1839a 35815i bk11: 1853a 35304i bk12: 1893a 34067i bk13: 1905a 33047i bk14: 1927a 33056i bk15: 1931a 33881i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.762836
+Row_Buffer_Locality_read = 0.857279
+Row_Buffer_Locality_write = 0.433596
+Bank_Level_Parallism = 9.692135
+Bank_Level_Parallism_Col = 7.089101
+Bank_Level_Parallism_Ready = 2.992745
+write_to_read_ratio_blp_rw_average = 0.563984
+GrpLevelPara = 3.309743 
+
+BW Util details:
+bwutil = 0.610699 
+total_CMD = 75615 
+util_bw = 46178 
+Wasted_Col = 22975 
+Wasted_Row = 2466 
+Idle = 3996 
+
+BW Util Bottlenecks: 
+RCDc_limit = 14438 
+RCDWRc_limit = 16924 
+WTRc_limit = 15539 
+RTWc_limit = 91004 
+CCDLc_limit = 19374 
+rwq = 0 
+CCDLc_limit_alone = 10808 
+WTRc_limit_alone = 14126 
+RTWc_limit_alone = 83851 
+
+Commands details: 
+total_CMD = 75615 
+n_nop = 23053 
+Read = 30528 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 15650 
+n_act = 9316 
+n_pre = 9302 
+n_ref = 0 
+n_req = 39285 
+total_req = 46178 
+
+Dual Bus Interface Util: 
+issued_total_row = 18618 
+issued_total_col = 46178 
+Row_Bus_Util =  0.246221 
+CoL_Bus_Util = 0.610699 
+Either_Row_CoL_Bus_Util = 0.695127 
+Issued_on_Two_Bus_Simul_Util = 0.161793 
+issued_two_Eff = 0.232754 
+queue_avg = 65.910530 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=65.9105
+Memory Partition 1: 
+Cache L2_bank_002:
+MSHR contents
+
+Cache L2_bank_003:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[1]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=75615 n_nop=23662 n_act=8646 n_pre=8632 n_ref_event=0 n_req=38770 n_rd=30278 n_rd_L2_A=0 n_write=0 n_wr_bk=15408 bw_util=0.6042
+n_activity=73378 dram_eff=0.6226
+bk0: 1994a 38947i bk1: 1910a 39918i bk2: 1912a 41077i bk3: 1892a 40357i bk4: 1902a 40509i bk5: 1902a 37866i bk6: 1897a 39300i bk7: 1888a 39252i bk8: 1895a 38481i bk9: 1880a 41122i bk10: 1828a 37769i bk11: 1833a 39743i bk12: 1864a 38072i bk13: 1875a 37769i bk14: 1903a 37405i bk15: 1903a 37686i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.776941
+Row_Buffer_Locality_read = 0.872052
+Row_Buffer_Locality_write = 0.437824
+Bank_Level_Parallism = 8.653224
+Bank_Level_Parallism_Col = 6.386678
+Bank_Level_Parallism_Ready = 2.673226
+write_to_read_ratio_blp_rw_average = 0.588799
+GrpLevelPara = 3.171261 
+
+BW Util details:
+bwutil = 0.604192 
+total_CMD = 75615 
+util_bw = 45686 
+Wasted_Col = 23648 
+Wasted_Row = 2701 
+Idle = 3580 
+
+BW Util Bottlenecks: 
+RCDc_limit = 12054 
+RCDWRc_limit = 18466 
+WTRc_limit = 12727 
+RTWc_limit = 80115 
+CCDLc_limit = 20112 
+rwq = 0 
+CCDLc_limit_alone = 12026 
+WTRc_limit_alone = 11579 
+RTWc_limit_alone = 73177 
+
+Commands details: 
+total_CMD = 75615 
+n_nop = 23662 
+Read = 30278 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 15408 
+n_act = 8646 
+n_pre = 8632 
+n_ref = 0 
+n_req = 38770 
+total_req = 45686 
+
+Dual Bus Interface Util: 
+issued_total_row = 17278 
+issued_total_col = 45686 
+Row_Bus_Util =  0.228500 
+CoL_Bus_Util = 0.604192 
+Either_Row_CoL_Bus_Util = 0.687073 
+Issued_on_Two_Bus_Simul_Util = 0.145619 
+issued_two_Eff = 0.211942 
+queue_avg = 55.496674 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=55.4967
+Memory Partition 2: 
+Cache L2_bank_004:
+MSHR contents
+
+Cache L2_bank_005:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[2]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=75615 n_nop=23951 n_act=8576 n_pre=8560 n_ref_event=0 n_req=38625 n_rd=30217 n_rd_L2_A=0 n_write=0 n_wr_bk=15336 bw_util=0.6024
+n_activity=73328 dram_eff=0.6212
+bk0: 2000a 40509i bk1: 1902a 40927i bk2: 1901a 40580i bk3: 1899a 39995i bk4: 1901a 40101i bk5: 1894a 41683i bk6: 1892a 40354i bk7: 1889a 41339i bk8: 1891a 41164i bk9: 1867a 41793i bk10: 1826a 41276i bk11: 1824a 42025i bk12: 1866a 40305i bk13: 1868a 38263i bk14: 1897a 38803i bk15: 1900a 38755i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.777968
+Row_Buffer_Locality_read = 0.871430
+Row_Buffer_Locality_write = 0.442079
+Bank_Level_Parallism = 8.351545
+Bank_Level_Parallism_Col = 6.120044
+Bank_Level_Parallism_Ready = 2.632538
+write_to_read_ratio_blp_rw_average = 0.576209
+GrpLevelPara = 3.169776 
+
+BW Util details:
+bwutil = 0.602433 
+total_CMD = 75615 
+util_bw = 45553 
+Wasted_Col = 23456 
+Wasted_Row = 2905 
+Idle = 3701 
+
+BW Util Bottlenecks: 
+RCDc_limit = 12287 
+RCDWRc_limit = 17464 
+WTRc_limit = 12014 
+RTWc_limit = 75444 
+CCDLc_limit = 19251 
+rwq = 0 
+CCDLc_limit_alone = 11691 
+WTRc_limit_alone = 10869 
+RTWc_limit_alone = 69029 
+
+Commands details: 
+total_CMD = 75615 
+n_nop = 23951 
+Read = 30217 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 15336 
+n_act = 8576 
+n_pre = 8560 
+n_ref = 0 
+n_req = 38625 
+total_req = 45553 
+
+Dual Bus Interface Util: 
+issued_total_row = 17136 
+issued_total_col = 45553 
+Row_Bus_Util =  0.226622 
+CoL_Bus_Util = 0.602433 
+Either_Row_CoL_Bus_Util = 0.683251 
+Issued_on_Two_Bus_Simul_Util = 0.145804 
+issued_two_Eff = 0.213398 
+queue_avg = 49.370811 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=49.3708
+Memory Partition 3: 
+Cache L2_bank_006:
+MSHR contents
+
+Cache L2_bank_007:
+MSHR contents
+
+In Dram Latency Queue (total = 2): 
+Ready @ 110026 -   mf: uid=3603990, sid4294967295:w4294967295, part=3, addr=0xc0459880, store, size=128, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (109926), 
+Ready @ 110029 -   mf: uid=3603991, sid4294967295:w4294967295, part=3, addr=0xc039b800, store, size=128, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (109929), 
+DRAM[3]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=75615 n_nop=23781 n_act=8553 n_pre=8537 n_ref_event=0 n_req=38659 n_rd=30142 n_rd_L2_A=0 n_write=0 n_wr_bk=15407 bw_util=0.6024
+n_activity=73122 dram_eff=0.6229
+bk0: 1894a 41085i bk1: 1901a 41082i bk2: 1893a 43041i bk3: 1900a 41649i bk4: 1898a 40352i bk5: 1893a 41477i bk6: 1897a 40381i bk7: 1888a 39779i bk8: 1873a 40734i bk9: 1884a 39190i bk10: 1831a 40343i bk11: 1845a 40817i bk12: 1865a 40526i bk13: 1882a 38483i bk14: 1892a 40033i bk15: 1906a 38202i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.778758
+Row_Buffer_Locality_read = 0.874262
+Row_Buffer_Locality_write = 0.440766
+Bank_Level_Parallism = 8.385979
+Bank_Level_Parallism_Col = 6.204812
+Bank_Level_Parallism_Ready = 2.768711
+write_to_read_ratio_blp_rw_average = 0.581589
+GrpLevelPara = 3.142340 
+
+BW Util details:
+bwutil = 0.602380 
+total_CMD = 75615 
+util_bw = 45549 
+Wasted_Col = 23074 
+Wasted_Row = 3083 
+Idle = 3909 
+
+BW Util Bottlenecks: 
+RCDc_limit = 10674 
+RCDWRc_limit = 18617 
+WTRc_limit = 11546 
+RTWc_limit = 69775 
+CCDLc_limit = 17561 
+rwq = 0 
+CCDLc_limit_alone = 10870 
+WTRc_limit_alone = 10461 
+RTWc_limit_alone = 64169 
+
+Commands details: 
+total_CMD = 75615 
+n_nop = 23781 
+Read = 30142 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 15407 
+n_act = 8553 
+n_pre = 8537 
+n_ref = 0 
+n_req = 38659 
+total_req = 45549 
+
+Dual Bus Interface Util: 
+issued_total_row = 17090 
+issued_total_col = 45549 
+Row_Bus_Util =  0.226013 
+CoL_Bus_Util = 0.602380 
+Either_Row_CoL_Bus_Util = 0.685499 
+Issued_on_Two_Bus_Simul_Util = 0.142895 
+issued_two_Eff = 0.208454 
+queue_avg = 52.204510 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=52.2045
+Memory Partition 4: 
+Cache L2_bank_008:
+MSHR contents
+
+Cache L2_bank_009:
+MSHR contents
+
+In Dram Latency Queue (total = 1): 
+Ready @ 110036 -   mf: uid=3603992, sid4294967295:w4294967295, part=4, addr=0xc03fa400, store, size=64, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (109936), 
+DRAM[4]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=75615 n_nop=24043 n_act=8632 n_pre=8617 n_ref_event=0 n_req=39211 n_rd=30372 n_rd_L2_A=0 n_write=0 n_wr_bk=15687 bw_util=0.6091
+n_activity=72511 dram_eff=0.6352
+bk0: 1923a 35310i bk1: 1911a 37995i bk2: 1916a 36704i bk3: 1907a 36967i bk4: 1918a 34801i bk5: 1892a 38910i bk6: 1907a 35874i bk7: 1897a 37133i bk8: 1896a 34470i bk9: 1879a 38342i bk10: 1858a 34071i bk11: 1844a 36940i bk12: 1897a 32689i bk13: 1895a 36427i bk14: 1915a 34194i bk15: 1917a 37164i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.779832
+Row_Buffer_Locality_read = 0.871065
+Row_Buffer_Locality_write = 0.466342
+Bank_Level_Parallism = 9.572062
+Bank_Level_Parallism_Col = 7.345944
+Bank_Level_Parallism_Ready = 3.097440
+write_to_read_ratio_blp_rw_average = 0.578845
+GrpLevelPara = 3.321491 
+
+BW Util details:
+bwutil = 0.609125 
+total_CMD = 75615 
+util_bw = 46059 
+Wasted_Col = 20233 
+Wasted_Row = 3814 
+Idle = 5509 
+
+BW Util Bottlenecks: 
+RCDc_limit = 10552 
+RCDWRc_limit = 16115 
+WTRc_limit = 14560 
+RTWc_limit = 77313 
+CCDLc_limit = 17577 
+rwq = 0 
+CCDLc_limit_alone = 9251 
+WTRc_limit_alone = 13142 
+RTWc_limit_alone = 70405 
+
+Commands details: 
+total_CMD = 75615 
+n_nop = 24043 
+Read = 30372 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 15687 
+n_act = 8632 
+n_pre = 8617 
+n_ref = 0 
+n_req = 39211 
+total_req = 46059 
+
+Dual Bus Interface Util: 
+issued_total_row = 17249 
+issued_total_col = 46059 
+Row_Bus_Util =  0.228116 
+CoL_Bus_Util = 0.609125 
+Either_Row_CoL_Bus_Util = 0.682034 
+Issued_on_Two_Bus_Simul_Util = 0.155207 
+issued_two_Eff = 0.227565 
+queue_avg = 76.812759 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=76.8128
+
+========= L2 cache stats =========
+L2_cache_bank[0]: Access = 37427, Miss = 34932, Miss_rate = 0.933, Pending_hits = 275, Reservation_fails = 2344
+L2_cache_bank[1]: Access = 35208, Miss = 34920, Miss_rate = 0.992, Pending_hits = 224, Reservation_fails = 3016
+L2_cache_bank[2]: Access = 36953, Miss = 34831, Miss_rate = 0.943, Pending_hits = 563, Reservation_fails = 7943
+L2_cache_bank[3]: Access = 35185, Miss = 34723, Miss_rate = 0.987, Pending_hits = 362, Reservation_fails = 5215
+L2_cache_bank[4]: Access = 36970, Miss = 34820, Miss_rate = 0.942, Pending_hits = 638, Reservation_fails = 8666
+L2_cache_bank[5]: Access = 35213, Miss = 34712, Miss_rate = 0.986, Pending_hits = 395, Reservation_fails = 3282
+L2_cache_bank[6]: Access = 35201, Miss = 34689, Miss_rate = 0.985, Pending_hits = 377, Reservation_fails = 3814
+L2_cache_bank[7]: Access = 35228, Miss = 34771, Miss_rate = 0.987, Pending_hits = 353, Reservation_fails = 3284
+L2_cache_bank[8]: Access = 35211, Miss = 34870, Miss_rate = 0.990, Pending_hits = 297, Reservation_fails = 4324
+L2_cache_bank[9]: Access = 35224, Miss = 34822, Miss_rate = 0.989, Pending_hits = 338, Reservation_fails = 2804
+L2_total_cache_accesses = 357820
+L2_total_cache_misses = 348090
+L2_total_cache_miss_rate = 0.9728
+L2_total_cache_pending_hits = 3822
+L2_total_cache_reservation_fails = 44692
+L2_total_cache_breakdown:
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 855
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 3306
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 40852
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 27890
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 110479
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT] = 432
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 6
+	L2_cache_stats_breakdown[CONST_ACC_R][MISS] = 1
+	L2_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 117
+	L2_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 1
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 36
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 19
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 43614
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 3517
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 152939
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT] = 4585
+	L2_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 491
+	L2_cache_stats_breakdown[INST_ACC_R][MISS] = 51
+	L2_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 13168
+	L2_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 153
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 155492
+	L2_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 440
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 196608
+	L2_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 5280
+L2_total_cache_reservation_fail_breakdown:
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][LINE_ALLOC_FAIL] = 25640
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][MSHR_ENRTY_FAIL] = 2250
+	L2_cache_stats_fail_breakdown[CONST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 117
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_W][LINE_ALLOC_FAIL] = 3517
+	L2_cache_stats_fail_breakdown[INST_ACC_R][LINE_ALLOC_FAIL] = 310
+	L2_cache_stats_fail_breakdown[INST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 12858
+L2_cache_data_port_util = 0.093
+L2_cache_fill_port_util = 0.138
+
+icnt_total_pkts_mem_to_simt=357820
+icnt_total_pkts_simt_to_mem=353640
+LD_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ST_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+----------------------------Interconnect-DETAILS--------------------------------
+-------TP Traffic Pattern Stats, Kernel 0 -------------------------------
+TP MC NODE:	110	111	112	113	114	115	116	117	118	119	
+TP Node 0:	152	206	190	245	234	223	218	184	281	231	0	
+TP Node 1:	225	256	201	248	219	252	197	250	178	224	0	
+TP Node 2:	305	236	217	139	275	251	183	220	197	227	0	
+TP Node 3:	142	136	144	140	168	164	108	108	140	140	0	
+TP Node 4:	174	168	136	132	100	96	184	184	108	108	0	
+TP Node 5:	186	180	100	96	144	140	168	168	104	104	0	
+TP Node 6:	149	118	215	176	171	145	175	165	165	169	0	
+TP Node 7:	110	104	188	184	96	92	180	180	128	128	0	
+TP Node 8:	146	140	156	152	128	124	132	132	140	140	0	
+TP Node 9:	130	124	148	144	148	144	92	92	184	184	0	
+TP Node 10:	102	96	144	140	156	152	124	124	176	176	0	
+TP Node 11:	215	271	198	250	215	244	227	216	224	190	0	
+TP Node 12:	261	301	156	179	269	262	206	185	232	199	0	
+TP Node 13:	253	231	255	235	274	226	218	177	237	230	0	
+TP Node 14:	193	190	162	169	125	127	203	202	133	144	0	
+TP Node 15:	186	180	100	96	144	140	168	168	104	104	0	
+TP Node 16:	134	149	194	188	178	152	167	157	171	158	0	
+TP Node 17:	110	104	188	184	96	92	180	180	128	128	0	
+TP Node 18:	146	140	156	152	128	124	132	132	140	140	0	
+TP Node 19:	130	124	148	144	148	144	92	92	184	184	0	
+TP Node 20:	102	96	144	140	156	152	124	124	176	176	0	
+TP Node 21:	150	144	128	124	152	148	140	140	132	132	0	
+TP Node 22:	275	289	226	188	317	268	230	190	234	205	0	
+TP Node 23:	184	163	205	159	221	191	143	125	159	184	0	
+TP Node 24:	211	185	154	175	124	149	201	237	129	169	0	
+TP Node 25:	204	207	136	130	179	156	209	178	141	108	0	
+TP Node 26:	146	148	203	196	189	169	193	175	202	199	0	
+TP Node 27:	155	104	228	200	120	120	190	223	128	180	0	
+TP Node 28:	146	140	156	152	128	124	132	132	140	140	0	
+TP Node 29:	130	124	148	144	148	144	92	92	184	184	0	
+TP Node 30:	102	96	144	140	156	152	124	124	176	176	0	
+TP Node 31:	150	144	128	124	152	148	140	140	132	132	0	
+TP Node 32:	182	176	100	96	188	184	108	108	124	124	0	
+TP Node 33:	242	271	238	311	271	334	245	302	268	280	0	
+TP Node 34:	340	308	283	281	196	228	285	348	223	274	0	
+TP Node 35:	262	228	176	148	208	198	229	255	187	187	0	
+TP Node 36:	141	184	221	250	207	179	252	164	236	158	0	
+TP Node 37:	199	205	286	261	197	206	260	292	215	215	0	
+TP Node 38:	202	174	211	202	166	202	175	204	166	204	0	
+TP Node 39:	223	161	235	178	218	164	143	118	215	251	0	
+TP Node 40:	170	130	217	183	217	195	167	190	194	243	0	
+TP Node 41:	212	237	162	193	198	202	188	216	189	195	0	
+TP Node 42:	214	195	117	120	231	203	142	127	156	143	0	
+TP Node 43:	176	161	162	158	195	182	125	133	164	192	0	
+TP Node 44:	341	307	313	267	277	215	345	283	253	249	0	
+TP Node 45:	348	307	311	221	330	251	350	307	278	235	0	
+TP Node 46:	251	299	271	311	255	269	286	262	293	265	0	
+TP Node 47:	207	282	302	385	175	259	285	367	216	288	0	
+TP Node 48:	307	278	271	277	246	291	231	275	263	327	0	
+TP Node 49:	245	267	319	273	303	260	256	180	369	292	0	
+TP Node 50:	282	197	303	252	305	283	277	234	327	302	0	
+TP Node 51:	211	236	223	217	240	263	258	229	261	198	0	
+TP Node 52:	272	286	211	163	341	244	270	168	258	209	0	
+TP Node 53:	177	240	181	237	220	230	237	146	238	172	0	
+TP Node 54:	207	251	174	217	125	154	228	231	186	133	0	
+TP Node 55:	276	484	232	358	332	377	408	362	361	262	0	
+TP Node 56:	357	349	407	422	394	382	379	360	369	379	0	
+TP Node 57:	280	278	330	391	212	300	322	396	275	326	0	
+TP Node 58:	308	298	329	312	284	273	277	257	311	289	0	
+TP Node 59:	232	302	279	394	284	354	215	247	373	344	0	
+TP Node 60:	257	250	288	254	298	286	261	300	324	328	0	
+TP Node 61:	285	238	253	248	279	331	278	297	257	300	0	
+TP Node 62:	323	300	291	208	355	281	250	214	270	272	0	
+TP Node 63:	316	247	309	260	344	270	262	221	257	278	0	
+TP Node 64:	291	339	265	295	241	248	289	327	264	207	0	
+TP Node 65:	364	285	225	236	204	343	213	420	166	310	0	
+TP Node 66:	332	444	394	529	343	438	425	381	501	353	0	
+TP Node 67:	414	352	529	400	406	342	485	472	362	378	0	
+TP Node 68:	413	423	401	411	406	409	404	417	445	411	0	
+TP Node 69:	327	392	402	457	388	417	374	360	473	464	0	
+TP Node 70:	361	297	402	407	387	452	388	423	404	447	0	
+TP Node 71:	369	405	340	429	357	457	408	451	420	420	0	
+TP Node 72:	376	485	293	423	365	512	282	432	370	344	0	
+TP Node 73:	427	348	376	428	386	466	303	374	346	426	0	
+TP Node 74:	440	428	394	370	378	315	452	419	352	332	0	
+TP Node 75:	389	321	294	224	329	308	341	369	317	304	0	
+TP Node 76:	375	326	386	380	369	362	357	331	329	325	0	
+TP Node 77:	475	429	557	543	458	423	591	466	480	408	0	
+TP Node 78:	483	584	512	552	509	499	527	446	542	434	0	
+TP Node 79:	491	432	556	464	439	478	373	471	463	573	0	
+TP Node 80:	477	304	462	380	444	512	367	538	403	599	0	
+TP Node 81:	493	428	509	467	485	405	469	404	411	415	0	
+TP Node 82:	416	522	359	380	517	432	454	330	476	340	0	
+TP Node 83:	431	391	455	393	503	440	433	379	477	410	0	
+TP Node 84:	432	433	424	400	410	364	479	465	427	392	0	
+TP Node 85:	451	412	438	341	460	377	446	425	397	395	0	
+TP Node 86:	390	439	456	475	428	438	386	409	394	411	0	
+TP Node 87:	410	371	487	441	421	300	504	407	431	368	0	
+TP Node 88:	620	520	629	542	598	539	566	614	532	614	0	
+TP Node 89:	516	589	547	513	587	524	563	444	681	548	0	
+TP Node 90:	509	591	515	588	554	546	583	522	607	581	0	
+TP Node 91:	617	641	482	531	520	496	519	471	554	507	0	
+TP Node 92:	612	435	538	410	611	523	502	453	500	590	0	
+TP Node 93:	554	492	490	475	595	444	518	349	541	454	0	
+TP Node 94:	479	578	414	508	426	407	586	436	504	398	0	
+TP Node 95:	486	618	439	474	496	468	529	484	534	388	0	
+TP Node 96:	529	444	553	531	452	598	388	657	387	635	0	
+TP Node 97:	452	395	522	523	423	396	539	476	481	449	0	
+TP Node 98:	458	511	508	529	500	505	490	528	485	488	0	
+TP Node 99:	586	660	725	684	736	600	692	513	729	623	0	
+TP Node 100:	550	570	712	575	765	644	682	632	818	680	0	
+TP Node 101:	713	575	708	606	667	620	591	700	495	693	0	
+TP Node 102:	554	729	413	753	518	875	535	710	592	603	0	
+TP Node 103:	656	606	577	519	634	594	580	549	602	625	0	
+TP Node 104:	669	617	577	520	535	536	544	643	470	577	0	
+TP Node 105:	686	520	573	484	592	588	580	704	468	663	0	
+TP Node 106:	567	570	577	586	523	622	537	627	585	576	0	
+TP Node 107:	539	552	579	690	511	636	617	686	577	557	0	
+TP Node 108:	665	433	601	429	642	505	520	605	514	686	0	
+TP Node 109:	594	552	637	577	583	545	524	520	542	616	0	
+TP Node 110:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 111:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 112:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 113:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 114:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 115:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 116:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 117:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 118:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 119:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 120:	0	0	0	0	0	0	0	0	0	0	0	
+-------TP Kernel 0 ENDS -------------------------------------------------
+Class 0:
+Packet latency average = 2760.81
+	minimum = 8
+	maximum = 68133
+Network latency average = 2617.57
+	minimum = 8
+	maximum = 68089
+Slowest packet = 271080
+Flit latency average = 2617.57
+	minimum = 8
+	maximum = 68089
+Slowest flit = 271555
+Fragmentation average = 0
+	minimum = 0
+	maximum = 0
+Injected packet rate average = 0.0534433
+	minimum = 0 (at node 120)
+	maximum = 0.340184 (at node 110)
+Accepted packet rate average = 0.0534433
+	minimum = 0 (at node 120)
+	maximum = 0.326186 (at node 110)
+Injected flit rate average = 0.0534433
+	minimum = 0 (at node 120)
+	maximum = 0.340184 (at node 110)
+Accepted flit rate average= 0.0534433
+	minimum = 0 (at node 120)
+	maximum = 0.326186 (at node 110)
+Injected packet length average = 1
+Accepted packet length average = 1
+Total in-flight flits = 0 (0 measured)
+====== Overall Traffic Statistics ======
+Request Flits: 353640
+Reply Flits: 357820
+====== Traffic class 0 ======
+Packet latency average = 2760.81 (1 samples)
+	minimum = 8 (1 samples)
+	maximum = 68133 (1 samples)
+Network latency average = 2617.57 (1 samples)
+	minimum = 8 (1 samples)
+	maximum = 68089 (1 samples)
+Flit latency average = 2617.57 (1 samples)
+	minimum = 8 (1 samples)
+	maximum = 68089 (1 samples)
+Fragmentation average = 0 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0 (1 samples)
+Injected packet rate average = 0.0534433 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.340184 (1 samples)
+Accepted packet rate average = 0.0534433 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.326186 (1 samples)
+Injected flit rate average = 0.0534433 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.340184 (1 samples)
+Accepted flit rate average = 0.0534433 (1 samples)
+	minimum = 0 (1 samples)
+	maximum = 0.326186 (1 samples)
+Injected packet size average = 1 (1 samples)
+Accepted packet size average = 1 (1 samples)
+Hops average = 8.69897 (1 samples)
+----------------------------END-of-Interconnect-DETAILS-------------------------
+
+
+gpgpu_simulation_time = 0 days, 0 hrs, 26 min, 58 sec (1618 sec)
+gpgpu_simulation_rate = 64847 (inst/sec)
+gpgpu_simulation_rate = 67 (cycle/sec)
+GPGPU-Sim: synchronize waiting for inactive GPU simulation
+GPGPU-Sim API: Stream Manager State
+GPGPU-Sim: detected inactive GPU simulation thread
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4ba8..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffe8fdc4ba4..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4b98..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffe8fdc4ba0..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4b90..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffe8fdc4b88..
+
+GPGPU-Sim PTX: cudaLaunch for 0x0x4020f0 (mode=performance simulation) on stream 0
+GPGPU-Sim PTX: finding reconvergence points for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: Finding dominators for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: Finding immediate dominators for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: Finding postdominators for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: Finding immediate postdominators for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: pre-decoding instructions for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'...
+GPGPU-Sim PTX: reconvergence points for _Z24bpnn_adjust_weights_cudaPfiS_iS_S_...
+GPGPU-Sim PTX:  1 (potential) branch divergence @  PC=0x438 (backprop.1.sm_30.ptx:204) @%p1 bra BB1_2;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4f8 (backprop.1.sm_30.ptx:231) ret;
+GPGPU-Sim PTX: ... end of reconvergence points for _Z24bpnn_adjust_weights_cudaPfiS_iS_S_
+GPGPU-Sim PTX: ... done pre-decoding instructions for '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'.
+GPGPU-Sim PTX: pushing kernel '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_' to stream 0, gridDim= (1,4096,1) blockDim = (16,16,1) 
+GPGPU-Sim uArch: Shader 159 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: CTA/core = 8, limited by: threads
+GPGPU-Sim: Reconfigure L1 cache in Volta Archi to 128KB
+GPGPU-Sim uArch: Shader 161 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 162 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 165 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 167 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 169 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 170 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 173 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 175 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 177 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 179 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 180 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 182 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 185 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 187 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 188 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 191 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 192 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 194 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 196 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 199 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 201 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 203 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 205 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 207 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 208 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 210 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 213 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 214 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 217 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 219 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 1 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 2 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 4 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 6 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 8 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 10 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 12 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 14 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 16 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 18 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 20 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 22 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 24 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 26 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 29 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 30 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 33 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 34 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 36 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 38 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 40 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 42 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 45 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 46 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 48 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 51 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 53 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 54 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 56 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 58 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 60 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 62 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 64 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 66 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 68 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 70 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 73 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 74 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 76 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 79 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 80 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 83 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 85 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 87 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 89 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 91 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 92 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 95 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 97 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 98 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 100 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 102 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 105 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 107 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 109 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 111 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 112 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 114 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 117 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 118 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 121 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 122 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 124 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 126 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 129 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 130 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 132 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 135 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 137 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 139 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 140 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 143 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 145 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 147 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 149 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 150 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 153 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 155 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 156 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 158 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 160 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 163 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 164 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 166 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 168 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 171 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 172 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 174 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 176 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 178 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 181 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 183 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 184 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 186 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 189 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 190 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 193 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 195 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 197 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 198 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 200 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 202 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 204 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 206 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 209 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 211 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 212 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 215 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 216 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 218 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 0 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 3 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 5 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 7 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 9 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 11 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 13 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 15 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 17 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 19 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 21 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 23 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 25 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 27 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 28 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 31 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 32 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 35 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 37 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 39 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 41 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 43 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 44 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 47 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 49 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 50 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 52 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 55 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 57 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 59 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 61 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 63 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 65 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 67 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 69 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 71 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 72 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 75 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 77 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 78 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 81 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 82 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 84 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 86 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 88 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 90 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 93 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 94 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 96 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 99 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 101 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 103 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 104 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 106 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 108 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 110 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 113 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 115 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 116 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 119 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 120 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 123 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 125 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 127 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 128 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 131 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 133 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 134 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 136 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 138 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 141 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 142 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 144 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 146 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 148 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 151 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 152 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 154 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+GPGPU-Sim uArch: Shader 157 bind to kernel 2 '_Z24bpnn_adjust_weights_cudaPfiS_iS_S_'
+Destroy streams for kernel 2: size 0
+kernel_name = _Z24bpnn_adjust_weights_cudaPfiS_iS_S_ 
+kernel_launch_uid = 2 
+gpu_sim_cycle = 210732
+gpu_sim_insn = 56623456
+gpu_ipc =     268.6989
+gpu_tot_sim_cycle = 320752
+gpu_tot_sim_insn = 161546592
+gpu_tot_ipc =     503.6495
+gpu_tot_issued_cta = 8192
+gpu_occupancy = 90.7734% 
+gpu_tot_occupancy = 87.5615% 
+max_total_param_size = 0
+gpu_stall_dramfull = 1755966
+gpu_stall_icnt2sh    = 248580
+partiton_level_parallism =       3.0328
+partiton_level_parallism_total  =       3.0951
+partiton_level_parallism_util =       3.1555
+partiton_level_parallism_util_total  =       3.2529
+L2_BW  =     141.7927 GB/Sec
+L2_BW_total  =     145.0976 GB/Sec
+gpu_total_sim_rate=35103
+
+========= Core cache stats =========
+L1I_cache:
+	L1I_total_cache_accesses = 3121163
+	L1I_total_cache_misses = 57576
+	L1I_total_cache_miss_rate = 0.0184
+	L1I_total_cache_pending_hits = 0
+	L1I_total_cache_reservation_fails = 156124
+L1D_cache:
+	L1D_cache_core[0]: Access = 6738, Miss = 3319, Miss_rate = 0.493, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[1]: Access = 6836, Miss = 3502, Miss_rate = 0.512, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[2]: Access = 6836, Miss = 3502, Miss_rate = 0.512, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[3]: Access = 5856, Miss = 2864, Miss_rate = 0.489, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[4]: Access = 5856, Miss = 2985, Miss_rate = 0.510, Pending_hits = 0, Reservation_fails = 122
+	L1D_cache_core[5]: Access = 5856, Miss = 2992, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 1066
+	L1D_cache_core[6]: Access = 6150, Miss = 3058, Miss_rate = 0.497, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[7]: Access = 5856, Miss = 2992, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 860
+	L1D_cache_core[8]: Access = 5856, Miss = 2991, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 219
+	L1D_cache_core[9]: Access = 5856, Miss = 2828, Miss_rate = 0.483, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[10]: Access = 5856, Miss = 2991, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 1764
+	L1D_cache_core[11]: Access = 6836, Miss = 3622, Miss_rate = 0.530, Pending_hits = 0, Reservation_fails = 1514
+	L1D_cache_core[12]: Access = 6836, Miss = 3622, Miss_rate = 0.530, Pending_hits = 0, Reservation_fails = 3382
+	L1D_cache_core[13]: Access = 6934, Miss = 3445, Miss_rate = 0.497, Pending_hits = 0, Reservation_fails = 2540
+	L1D_cache_core[14]: Access = 6150, Miss = 3060, Miss_rate = 0.498, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[15]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[16]: Access = 6150, Miss = 2940, Miss_rate = 0.478, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[17]: Access = 5856, Miss = 2850, Miss_rate = 0.487, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[18]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[19]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[20]: Access = 5856, Miss = 2992, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 963
+	L1D_cache_core[21]: Access = 5856, Miss = 2751, Miss_rate = 0.470, Pending_hits = 0, Reservation_fails = 1546
+	L1D_cache_core[22]: Access = 7032, Miss = 3628, Miss_rate = 0.516, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[23]: Access = 6248, Miss = 3100, Miss_rate = 0.496, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[24]: Access = 6248, Miss = 3098, Miss_rate = 0.496, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[25]: Access = 6150, Miss = 3165, Miss_rate = 0.515, Pending_hits = 0, Reservation_fails = 2116
+	L1D_cache_core[26]: Access = 6346, Miss = 3067, Miss_rate = 0.483, Pending_hits = 0, Reservation_fails = 4095
+	L1D_cache_core[27]: Access = 6150, Miss = 3153, Miss_rate = 0.513, Pending_hits = 0, Reservation_fails = 14023
+	L1D_cache_core[28]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[29]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[30]: Access = 5856, Miss = 2884, Miss_rate = 0.492, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[31]: Access = 5856, Miss = 2875, Miss_rate = 0.491, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[32]: Access = 5856, Miss = 2872, Miss_rate = 0.490, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[33]: Access = 7424, Miss = 3880, Miss_rate = 0.523, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[34]: Access = 7424, Miss = 3880, Miss_rate = 0.523, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[35]: Access = 6640, Miss = 3328, Miss_rate = 0.501, Pending_hits = 0, Reservation_fails = 3128
+	L1D_cache_core[36]: Access = 6542, Miss = 3193, Miss_rate = 0.488, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[37]: Access = 6934, Miss = 3622, Miss_rate = 0.522, Pending_hits = 0, Reservation_fails = 22616
+	L1D_cache_core[38]: Access = 6444, Miss = 3226, Miss_rate = 0.501, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[39]: Access = 6444, Miss = 3295, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 25544
+	L1D_cache_core[40]: Access = 6444, Miss = 3270, Miss_rate = 0.507, Pending_hits = 0, Reservation_fails = 2788
+	L1D_cache_core[41]: Access = 6542, Miss = 3410, Miss_rate = 0.521, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[42]: Access = 6150, Miss = 3181, Miss_rate = 0.517, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[43]: Access = 6150, Miss = 3181, Miss_rate = 0.517, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[44]: Access = 7522, Miss = 3944, Miss_rate = 0.524, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[45]: Access = 7620, Miss = 4077, Miss_rate = 0.535, Pending_hits = 0, Reservation_fails = 12298
+	L1D_cache_core[46]: Access = 7424, Miss = 3833, Miss_rate = 0.516, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[47]: Access = 7424, Miss = 3880, Miss_rate = 0.523, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[48]: Access = 7424, Miss = 3832, Miss_rate = 0.516, Pending_hits = 0, Reservation_fails = 41135
+	L1D_cache_core[49]: Access = 7424, Miss = 3832, Miss_rate = 0.516, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[50]: Access = 8764, Miss = 4278, Miss_rate = 0.488, Pending_hits = 0, Reservation_fails = 24257
+	L1D_cache_core[51]: Access = 6934, Miss = 3545, Miss_rate = 0.511, Pending_hits = 0, Reservation_fails = 28233
+	L1D_cache_core[52]: Access = 7032, Miss = 3577, Miss_rate = 0.509, Pending_hits = 0, Reservation_fails = 26756
+	L1D_cache_core[53]: Access = 6640, Miss = 3270, Miss_rate = 0.492, Pending_hits = 0, Reservation_fails = 820
+	L1D_cache_core[54]: Access = 6444, Miss = 3148, Miss_rate = 0.489, Pending_hits = 0, Reservation_fails = 95528
+	L1D_cache_core[55]: Access = 11960, Miss = 5739, Miss_rate = 0.480, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[56]: Access = 11012, Miss = 5489, Miss_rate = 0.498, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[57]: Access = 11032, Miss = 5334, Miss_rate = 0.484, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[58]: Access = 11908, Miss = 5553, Miss_rate = 0.466, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[59]: Access = 12006, Miss = 5790, Miss_rate = 0.482, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[60]: Access = 11810, Miss = 5426, Miss_rate = 0.459, Pending_hits = 0, Reservation_fails = 32356
+	L1D_cache_core[61]: Access = 11712, Miss = 5431, Miss_rate = 0.464, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[62]: Access = 11176, Miss = 5283, Miss_rate = 0.473, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[63]: Access = 11712, Miss = 5484, Miss_rate = 0.468, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[64]: Access = 10372, Miss = 4960, Miss_rate = 0.478, Pending_hits = 0, Reservation_fails = 92000
+	L1D_cache_core[65]: Access = 11712, Miss = 5491, Miss_rate = 0.469, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[66]: Access = 14620, Miss = 6946, Miss_rate = 0.475, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[67]: Access = 14352, Miss = 6892, Miss_rate = 0.480, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[68]: Access = 15156, Miss = 7242, Miss_rate = 0.478, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[69]: Access = 14522, Miss = 6997, Miss_rate = 0.482, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[70]: Access = 17372, Miss = 7843, Miss_rate = 0.451, Pending_hits = 0, Reservation_fails = 24637
+	L1D_cache_core[71]: Access = 16398, Miss = 7576, Miss_rate = 0.462, Pending_hits = 0, Reservation_fails = 28576
+	L1D_cache_core[72]: Access = 15666, Miss = 7254, Miss_rate = 0.463, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[73]: Access = 14058, Miss = 6725, Miss_rate = 0.478, Pending_hits = 0, Reservation_fails = 5793
+	L1D_cache_core[74]: Access = 14326, Miss = 6760, Miss_rate = 0.472, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[75]: Access = 12202, Miss = 5925, Miss_rate = 0.486, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[76]: Access = 12594, Miss = 6022, Miss_rate = 0.478, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[77]: Access = 18620, Miss = 8650, Miss_rate = 0.465, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[78]: Access = 19986, Miss = 9282, Miss_rate = 0.464, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[79]: Access = 19347, Miss = 8878, Miss_rate = 0.459, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[80]: Access = 20908, Miss = 9393, Miss_rate = 0.449, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[81]: Access = 21980, Miss = 9796, Miss_rate = 0.446, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[82]: Access = 20078, Miss = 9080, Miss_rate = 0.452, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[83]: Access = 20444, Miss = 9245, Miss_rate = 0.452, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[84]: Access = 19274, Miss = 8833, Miss_rate = 0.458, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[85]: Access = 18104, Miss = 8314, Miss_rate = 0.459, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[86]: Access = 17666, Miss = 8112, Miss_rate = 0.459, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[87]: Access = 17568, Miss = 8042, Miss_rate = 0.458, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[88]: Access = 27470, Miss = 12336, Miss_rate = 0.449, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[89]: Access = 27712, Miss = 12175, Miss_rate = 0.439, Pending_hits = 0, Reservation_fails = 12793
+	L1D_cache_core[90]: Access = 27542, Miss = 12220, Miss_rate = 0.444, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[91]: Access = 27516, Miss = 12120, Miss_rate = 0.440, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[92]: Access = 27588, Miss = 12132, Miss_rate = 0.440, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[93]: Access = 27026, Miss = 11742, Miss_rate = 0.434, Pending_hits = 0, Reservation_fails = 14678
+	L1D_cache_core[94]: Access = 26830, Miss = 11730, Miss_rate = 0.437, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[95]: Access = 26758, Miss = 11654, Miss_rate = 0.436, Pending_hits = 0, Reservation_fails = 8177
+	L1D_cache_core[96]: Access = 24908, Miss = 11123, Miss_rate = 0.447, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[97]: Access = 22444, Miss = 10065, Miss_rate = 0.448, Pending_hits = 0, Reservation_fails = 12923
+	L1D_cache_core[98]: Access = 22836, Miss = 10214, Miss_rate = 0.447, Pending_hits = 0, Reservation_fails = 51
+	L1D_cache_core[99]: Access = 33176, Miss = 14676, Miss_rate = 0.442, Pending_hits = 0, Reservation_fails = 4729
+	L1D_cache_core[100]: Access = 33274, Miss = 14612, Miss_rate = 0.439, Pending_hits = 0, Reservation_fails = 11011
+	L1D_cache_core[101]: Access = 33248, Miss = 14574, Miss_rate = 0.438, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[102]: Access = 34490, Miss = 14961, Miss_rate = 0.434, Pending_hits = 0, Reservation_fails = 2255
+	L1D_cache_core[103]: Access = 35438, Miss = 15282, Miss_rate = 0.431, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[104]: Access = 33804, Miss = 14521, Miss_rate = 0.430, Pending_hits = 0, Reservation_fails = 13817
+	L1D_cache_core[105]: Access = 32392, Miss = 14123, Miss_rate = 0.436, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[106]: Access = 31758, Miss = 13863, Miss_rate = 0.437, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[107]: Access = 28470, Miss = 12695, Miss_rate = 0.446, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[108]: Access = 27810, Miss = 12341, Miss_rate = 0.444, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[109]: Access = 28176, Miss = 12487, Miss_rate = 0.443, Pending_hits = 0, Reservation_fails = 0
+	L1D_total_cache_accesses = 1499157
+	L1D_total_cache_misses = 695623
+	L1D_total_cache_miss_rate = 0.4640
+	L1D_total_cache_pending_hits = 0
+	L1D_total_cache_reservation_fails = 581109
+	L1D_cache_data_port_util = 0.003
+	L1D_cache_fill_port_util = 0.002
+L1C_cache:
+	L1C_total_cache_accesses = 294912
+	L1C_total_cache_misses = 14080
+	L1C_total_cache_miss_rate = 0.0477
+	L1C_total_cache_pending_hits = 0
+	L1C_total_cache_reservation_fails = 663004
+L1T_cache:
+	L1T_total_cache_accesses = 0
+	L1T_total_cache_misses = 0
+	L1T_total_cache_pending_hits = 0
+	L1T_total_cache_reservation_fails = 0
+
+Total_core_cache_stats:
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 362418
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 315298
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 61040
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 297147
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT] = 280832
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][MISS] = 14080
+	Total_core_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 663004
+	Total_core_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 441116
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 67664
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 520069
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 15514
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT] = 3063587
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][MISS] = 57576
+	Total_core_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 156124
+	Total_core_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 974863
+	Total_core_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 294912
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 524294
+	Total_core_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 3121163
+
+Total_core_cache_fail_stats:
+	Total_core_cache_fail_stats_breakdown[GLOBAL_ACC_R][MISS_QUEUE_FULL] = 61040
+	Total_core_cache_fail_stats_breakdown[CONST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 663004
+	Total_core_cache_fail_stats_breakdown[GLOBAL_ACC_W][MISS_QUEUE_FULL] = 520069
+	Total_core_cache_fail_stats_breakdown[INST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 156124
+Shader 0 warp_id issue ditsribution:
+warp_id:
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 
+distro:
+352, 286, 308, 286, 330, 286, 308, 286, 203, 170, 181, 170, 192, 170, 181, 170, 352, 286, 308, 286, 330, 286, 308, 286, 352, 286, 308, 286, 330, 286, 308, 286, 352, 286, 308, 286, 330, 286, 308, 286, 352, 286, 308, 286, 330, 286, 308, 286, 352, 286, 308, 286, 330, 286, 308, 286, 203, 170, 181, 170, 192, 170, 181, 170, 
+gpgpu_n_tot_thrd_icount = 188351200
+gpgpu_n_tot_w_icount = 5885975
+gpgpu_n_stall_shd_mem = 2112278
+gpgpu_n_mem_read_local = 0
+gpgpu_n_mem_write_local = 0
+gpgpu_n_mem_read_global = 466044
+gpgpu_n_mem_write_global = 524294
+gpgpu_n_mem_texture = 0
+gpgpu_n_mem_const = 220
+gpgpu_n_load_insn  = 8454224
+gpgpu_n_store_insn = 3211296
+gpgpu_n_shmem_insn = 8323072
+gpgpu_n_sstarr_insn = 0
+gpgpu_n_tex_insn = 0
+gpgpu_n_const_mem_insn = 0
+gpgpu_n_param_mem_insn = 9437184
+gpgpu_n_shmem_bkconflict = 0
+gpgpu_n_cache_bkconflict = 0
+gpgpu_n_intrawarp_mshr_merge = 0
+gpgpu_n_cmem_portconflict = 663004
+gpgpu_stall_shd_mem[c_mem][resource_stall] = 663004
+gpgpu_stall_shd_mem[s_mem][bk_conf] = 0
+gpgpu_stall_shd_mem[gl_mem][resource_stall] = 376108
+gpgpu_stall_shd_mem[gl_mem][coal_stall] = 1073166
+gpgpu_stall_shd_mem[gl_mem][data_port_stall] = 0
+gpu_reg_bank_conflict_stalls = 0
+Warp Occupancy Distribution:
+Stall:1281048	W0_Idle:122852339	W0_Scoreboard:134003006	W1:0	W2:425984	W3:0	W4:0	W5:0	W6:0	W7:0	W8:0	W9:0	W10:0	W11:0	W12:0	W13:0	W14:0	W15:0	W16:675863	W17:0	W18:0	W19:0	W20:0	W21:0	W22:0	W23:0	W24:0	W25:0	W26:0	W27:0	W28:0	W29:0	W30:0	W31:0	W32:4784128
+single_issue_nums: WS0:1617943	WS1:1392640	WS2:1482752	WS3:1392640	
+dual_issue_nums: WS0:0	WS1:0	WS2:0	WS3:0	
+traffic_breakdown_coretomem[CONST_ACC_R] = 1760 {8:220,}
+traffic_breakdown_coretomem[GLOBAL_ACC_R] = 3728352 {8:466044,}
+traffic_breakdown_coretomem[GLOBAL_ACC_W] = 20971760 {40:524294,}
+traffic_breakdown_coretomem[INST_ACC_R] = 17600 {8:2200,}
+traffic_breakdown_memtocore[CONST_ACC_R] = 17600 {40:440,}
+traffic_breakdown_memtocore[GLOBAL_ACC_R] = 18641760 {40:466044,}
+traffic_breakdown_memtocore[GLOBAL_ACC_W] = 4194352 {8:524294,}
+traffic_breakdown_memtocore[INST_ACC_R] = 352000 {40:8800,}
+maxmflatency = 178336 
+max_icnt2mem_latency = 177028 
+maxmrqlatency = 2396 
+max_icnt2sh_latency = 9248 
+averagemflatency = 9399 
+avg_icnt2mem_latency = 8197 
+avg_mrq_latency = 254 
+avg_icnt2sh_latency = 567 
+mrq_lat_table:17745 	24520 	11435 	15171 	28476 	64511 	91485 	132585 	148265 	81663 	9291 	37 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+dq_lat_table:0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_table:0 	0 	0 	0 	0 	0 	0 	27187 	37446 	50313 	50443 	129071 	387600 	190812 	68409 	36369 	12020 	1108 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2mem_lat_table:0 	0 	0 	16 	14633 	80191 	23258 	13613 	16912 	23946 	45539 	222604 	309341 	136938 	58464 	35911 	10281 	1111 	0 	0 	0 	0 	0 	0 	
+icnt2sh_lat_table:0 	0 	0 	45170 	217160 	208086 	115709 	75048 	73211 	81443 	75777 	81602 	17211 	361 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_pw_table:0 	0 	0 	0 	0 	0 	0 	3 	8 	2 	6 	21 	209 	362 	28 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+maximum concurrent accesses to same row:
+dram[0]:        39        37        31        46        40        32        31        31        44        27        38        38        27        30        40        30 
+dram[1]:        38        54        35        44        37        32        36        38        31        38        40        34        34        32        33        34 
+dram[2]:        40        54        40        38        56        40        45        37        25        38        32        32        32        32        47        40 
+dram[3]:        56        26        46        48        46        34        32        32        34        33        33        33        33        32        41        52 
+dram[4]:        31        33        49        58        32        38        32        34        34        31        28        32        26        32        48        45 
+maximum service time to same row:
+dram[0]:      2851      2311      2704      2275      2745      2528      3012      2489      3232      2708      3271      2686      2781      2470      2967      2393 
+dram[1]:      2228      2275      2251      2238      2248      2262      3225      2477      2791      2900      2793      2848      2371      2330      2430      2821 
+dram[2]:      2240      2353      2289      2254      3200      2310      3207      2512      3157      2845      2721      3253      2516      2343      2468      2441 
+dram[3]:      2330      2312      2295      2304      2311      2329      2506      2522      2819      2855      2724      2820      2305      2398      2337      2445 
+dram[4]:      2371      2368      2267      2941      2311      2299      2474      2475      2774      2787      2822      2750      2263      2748      2256      2388 
+average row accesses per activate:
+dram[0]:  3.659006  3.696970  3.671046  3.654171  3.780828  3.807860  3.692743  3.757987  3.713397  3.677773  3.614766  3.573763  3.616214  3.633538  3.696640  3.674965 
+dram[1]:  3.603825  3.665740  3.685393  3.601463  3.725047  3.818920  3.650816  3.733523  3.645116  3.751440  3.681250  3.644613  3.634272  3.576449  3.591034  3.675488 
+dram[2]:  3.781025  3.774069  3.718377  3.695364  3.778311  3.724220  3.731766  3.813477  3.772016  3.857071  3.634111  3.640326  3.697419  3.625293  3.693365  3.656060 
+dram[3]:  3.632287  3.708234  3.587776  3.900050  3.691046  3.880988  3.590472  3.802246  3.566159  3.834990  3.535764  3.887927  3.559080  3.739634  3.602482  3.761380 
+dram[4]:  3.754867  3.891261  3.714152  3.811348  3.768977  3.959779  3.714756  3.865012  3.652700  3.858495  3.585411  3.906646  3.585923  3.756133  3.678156  3.859882 
+average row locality = 625184/168593 = 3.708244
+number of total memory accesses made:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total accesses: 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+number of total read accesses:
+dram[0]:      5786      5752      5795      5788      5839      5827      5770      5732      5714      5701      5602      5618      5692      5703      5776      5778 
+dram[1]:      5848      5801      5811      5784      5857      5863      5771      5763      5730      5709      5595      5612      5676      5714      5775      5777 
+dram[2]:      5854      5742      5767      5764      5828      5808      5737      5728      5679      5646      5585      5565      5671      5669      5743      5745 
+dram[3]:      6009      5750      5743      5769      5811      5796      5751      5722      5683      5665      5592      5586      5676      5693      5736      5759 
+dram[4]:      6362      5790      5818      5818      5876      5821      5794      5761      5736      5691      5652      5636      5742      5726      5791      5780 
+total dram reads = 460025
+bank skew: 6362/5565 = 1.14
+chip skew: 92794/91531 = 1.01
+number of total write accesses:
+dram[0]:      2015      2056      2028      2010      2010      2021      2066      2032      2047      2026      2036      2037      2025      2011      2035      2046 
+dram[1]:      2066      2106      2061      2096      2055      2130      2060      2111      2107      2109      2062      2100      2065      2122      2075      2140 
+dram[2]:      2037      2059      2023      2048      2046      2065      2040      2082      2031      2045      2043      2036      2064      2071      2050      2068 
+dram[3]:      2091      2041      2064      2035      2062      2063      2087      2065      2052      2051      2070      2046      2065      2063      2103      2091 
+dram[4]:      2124      2047      2108      2041      2118      2055      2111      2027      2110      2053      2114      2064      2104      2083      2106      2071 
+total dram writes = 165159
+bank skew: 2140/2010 = 1.06
+chip skew: 33465/32501 = 1.03
+average mf latency per bank:
+dram[0]:      17345     17541     17067     18037     16680     17023     16231     17282     16719     17734     18101     19179     17436     18244     17376     18077
+dram[1]:      15894     13940     16176     13714     15819     13481     15743     13296     16580     13588     16963     14802     16740     14511     16469     14263
+dram[2]:      12111     12219     12143     11973     11532     12144     11391     11618     12282     11660     12411     12393     12449     12256     12395     12189
+dram[3]:      14654     12630     14905     12730     14558     12485     14826     12092     15508     12011     16349     12694     16520     12953     16161     12551
+dram[4]:      16144     13828     17091     13619     16800     13518     17350     13362     18378     13621     19718     14057     19188     14037     18064     13834
+maximum mf latency per bank:
+dram[0]:      88321     85369    119696     82246     88922     84753     79705     84740     83807     80335     83587    120991     84076     85435     84026     83187
+dram[1]:     132284    131604    130109    130465    130071    131757    126299    137920    127232    137124    134373    137943    111713    107030     95565    106682
+dram[2]:      93805    109904     91646    107937     90884    106544     89397    108849     99342    108284    121218    108031     95245    105628     77847    106370
+dram[3]:     176905    139959    176616    140822    178306    128511    177990    121975    178169     77460    178336    105223    175413    105630    175622    104102
+dram[4]:     170099    138019    151126    139578    164821    112984    170496    105823    166187    102642    170035     92767    169751    111485    170123     93916
+Memory Partition 0: 
+Cache L2_bank_000:
+MSHR contents
+
+Cache L2_bank_001:
+MSHR contents
+
+In Dram Latency Queue (total = 4): 
+Ready @ 320783 -   mf: uid=6284868, sid4294967295:w4294967295, part=0, addr=0xc0681d00, store, size=32, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (320683), 
+Ready @ 320787 -   mf: uid=6284869, sid4294967295:w4294967295, part=0, addr=0xc062c300, store, size=64, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (320687), 
+Ready @ 320799 -   mf: uid=6284870, sid4294967295:w4294967295, part=0, addr=0xc00a0d80, store, size=64, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (320699), 
+Ready @ 320802 -   mf: uid=6284871, sid4294967295:w4294967295, part=0, addr=0xc062a500, store, size=128, L2_WRBK  status = IN_PARTITION_DRAM_LATENCY_QUEUE (320702), 
+DRAM[0]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=220448 n_nop=53870 n_act=33780 n_pre=33764 n_ref_event=0 n_req=124374 n_rd=91873 n_rd_L2_A=0 n_write=0 n_wr_bk=52451 bw_util=0.6547
+n_activity=216791 dram_eff=0.6657
+bk0: 5786a 67513i bk1: 5752a 64281i bk2: 5795a 65518i bk3: 5788a 69122i bk4: 5839a 65369i bk5: 5827a 67850i bk6: 5770a 67144i bk7: 5732a 69102i bk8: 5714a 65037i bk9: 5701a 67367i bk10: 5602a 68842i bk11: 5618a 66892i bk12: 5692a 65666i bk13: 5703a 66584i bk14: 5776a 67287i bk15: 5778a 66454i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.728408
+Row_Buffer_Locality_read = 0.834924
+Row_Buffer_Locality_write = 0.427310
+Bank_Level_Parallism = 12.000400
+Bank_Level_Parallism_Col = 8.354156
+Bank_Level_Parallism_Ready = 3.004365
+write_to_read_ratio_blp_rw_average = 0.604900
+GrpLevelPara = 3.559691 
+
+BW Util details:
+bwutil = 0.654685 
+total_CMD = 220448 
+util_bw = 144324 
+Wasted_Col = 67290 
+Wasted_Row = 3505 
+Idle = 5329 
+
+BW Util Bottlenecks: 
+RCDc_limit = 50075 
+RCDWRc_limit = 60709 
+WTRc_limit = 62373 
+RTWc_limit = 364577 
+CCDLc_limit = 66824 
+rwq = 0 
+CCDLc_limit_alone = 32998 
+WTRc_limit_alone = 56888 
+RTWc_limit_alone = 336236 
+
+Commands details: 
+total_CMD = 220448 
+n_nop = 53870 
+Read = 91873 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 52451 
+n_act = 33780 
+n_pre = 33764 
+n_ref = 0 
+n_req = 124374 
+total_req = 144324 
+
+Dual Bus Interface Util: 
+issued_total_row = 67544 
+issued_total_col = 144324 
+Row_Bus_Util =  0.306394 
+CoL_Bus_Util = 0.654685 
+Either_Row_CoL_Bus_Util = 0.755634 
+Issued_on_Two_Bus_Simul_Util = 0.205445 
+issued_two_Eff = 0.271885 
+queue_avg = 96.537720 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=96.5377
+Memory Partition 1: 
+Cache L2_bank_002:
+MSHR contents
+
+Cache L2_bank_003:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[1]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=220448 n_nop=53146 n_act=34239 n_pre=34223 n_ref_event=0 n_req=125551 n_rd=92086 n_rd_L2_A=0 n_write=0 n_wr_bk=52896 bw_util=0.6577
+n_activity=216496 dram_eff=0.6697
+bk0: 5848a 63285i bk1: 5801a 63935i bk2: 5811a 64592i bk3: 5784a 63168i bk4: 5857a 63116i bk5: 5863a 59049i bk6: 5771a 62175i bk7: 5763a 63925i bk8: 5730a 63371i bk9: 5709a 64000i bk10: 5595a 68696i bk11: 5612a 64080i bk12: 5676a 66543i bk13: 5714a 60358i bk14: 5775a 62665i bk15: 5777a 60610i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.727290
+Row_Buffer_Locality_read = 0.821232
+Row_Buffer_Locality_write = 0.468788
+Bank_Level_Parallism = 12.283691
+Bank_Level_Parallism_Col = 8.532446
+Bank_Level_Parallism_Ready = 2.993917
+write_to_read_ratio_blp_rw_average = 0.599764
+GrpLevelPara = 3.614277 
+
+BW Util details:
+bwutil = 0.657670 
+total_CMD = 220448 
+util_bw = 144982 
+Wasted_Col = 66885 
+Wasted_Row = 2983 
+Idle = 5598 
+
+BW Util Bottlenecks: 
+RCDc_limit = 56823 
+RCDWRc_limit = 56711 
+WTRc_limit = 66383 
+RTWc_limit = 383565 
+CCDLc_limit = 71274 
+rwq = 0 
+CCDLc_limit_alone = 34471 
+WTRc_limit_alone = 60657 
+RTWc_limit_alone = 352488 
+
+Commands details: 
+total_CMD = 220448 
+n_nop = 53146 
+Read = 92086 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 52896 
+n_act = 34239 
+n_pre = 34223 
+n_ref = 0 
+n_req = 125551 
+total_req = 144982 
+
+Dual Bus Interface Util: 
+issued_total_row = 68462 
+issued_total_col = 144982 
+Row_Bus_Util =  0.310558 
+CoL_Bus_Util = 0.657670 
+Either_Row_CoL_Bus_Util = 0.758918 
+Issued_on_Two_Bus_Simul_Util = 0.209310 
+issued_two_Eff = 0.275801 
+queue_avg = 100.309662 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=100.31
+Memory Partition 2: 
+Cache L2_bank_004:
+MSHR contents
+
+Cache L2_bank_005:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[2]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=220448 n_nop=54988 n_act=33392 n_pre=33376 n_ref_event=0 n_req=124339 n_rd=91531 n_rd_L2_A=0 n_write=0 n_wr_bk=52484 bw_util=0.6533
+n_activity=215102 dram_eff=0.6695
+bk0: 5854a 68728i bk1: 5742a 72686i bk2: 5767a 71167i bk3: 5764a 68924i bk4: 5828a 67229i bk5: 5808a 70433i bk6: 5737a 69035i bk7: 5728a 69662i bk8: 5679a 69963i bk9: 5646a 72329i bk10: 5585a 72091i bk11: 5565a 73195i bk12: 5671a 68792i bk13: 5669a 67543i bk14: 5743a 66386i bk15: 5745a 65317i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.731444
+Row_Buffer_Locality_read = 0.829577
+Row_Buffer_Locality_write = 0.457663
+Bank_Level_Parallism = 11.915676
+Bank_Level_Parallism_Col = 8.291866
+Bank_Level_Parallism_Ready = 2.939909
+write_to_read_ratio_blp_rw_average = 0.601227
+GrpLevelPara = 3.575243 
+
+BW Util details:
+bwutil = 0.653283 
+total_CMD = 220448 
+util_bw = 144015 
+Wasted_Col = 65110 
+Wasted_Row = 3874 
+Idle = 7449 
+
+BW Util Bottlenecks: 
+RCDc_limit = 51237 
+RCDWRc_limit = 56342 
+WTRc_limit = 62512 
+RTWc_limit = 351325 
+CCDLc_limit = 67223 
+rwq = 0 
+CCDLc_limit_alone = 33561 
+WTRc_limit_alone = 56832 
+RTWc_limit_alone = 323343 
+
+Commands details: 
+total_CMD = 220448 
+n_nop = 54988 
+Read = 91531 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 52484 
+n_act = 33392 
+n_pre = 33376 
+n_ref = 0 
+n_req = 124339 
+total_req = 144015 
+
+Dual Bus Interface Util: 
+issued_total_row = 66768 
+issued_total_col = 144015 
+Row_Bus_Util =  0.302874 
+CoL_Bus_Util = 0.653283 
+Either_Row_CoL_Bus_Util = 0.750562 
+Issued_on_Two_Bus_Simul_Util = 0.205595 
+issued_two_Eff = 0.273921 
+queue_avg = 94.326851 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=94.3269
+Memory Partition 3: 
+Cache L2_bank_006:
+MSHR contents
+
+Cache L2_bank_007:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[3]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=220448 n_nop=54219 n_act=33720 n_pre=33704 n_ref_event=0 n_req=124790 n_rd=91741 n_rd_L2_A=0 n_write=0 n_wr_bk=52529 bw_util=0.6544
+n_activity=215157 dram_eff=0.6705
+bk0: 6009a 63810i bk1: 5750a 70357i bk2: 5743a 68973i bk3: 5769a 69454i bk4: 5811a 66875i bk5: 5796a 69183i bk6: 5751a 67686i bk7: 5722a 67396i bk8: 5683a 68244i bk9: 5665a 63915i bk10: 5592a 68061i bk11: 5586a 71359i bk12: 5676a 66339i bk13: 5693a 66268i bk14: 5736a 64852i bk15: 5759a 63222i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.729786
+Row_Buffer_Locality_read = 0.822849
+Row_Buffer_Locality_write = 0.471451
+Bank_Level_Parallism = 12.057442
+Bank_Level_Parallism_Col = 8.369904
+Bank_Level_Parallism_Ready = 2.966084
+write_to_read_ratio_blp_rw_average = 0.600134
+GrpLevelPara = 3.574239 
+
+BW Util details:
+bwutil = 0.654440 
+total_CMD = 220448 
+util_bw = 144270 
+Wasted_Col = 66107 
+Wasted_Row = 3264 
+Idle = 6807 
+
+BW Util Bottlenecks: 
+RCDc_limit = 53944 
+RCDWRc_limit = 57069 
+WTRc_limit = 64406 
+RTWc_limit = 362693 
+CCDLc_limit = 68814 
+rwq = 0 
+CCDLc_limit_alone = 34601 
+WTRc_limit_alone = 58747 
+RTWc_limit_alone = 334139 
+
+Commands details: 
+total_CMD = 220448 
+n_nop = 54219 
+Read = 91741 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 52529 
+n_act = 33720 
+n_pre = 33704 
+n_ref = 0 
+n_req = 124790 
+total_req = 144270 
+
+Dual Bus Interface Util: 
+issued_total_row = 67424 
+issued_total_col = 144270 
+Row_Bus_Util =  0.305850 
+CoL_Bus_Util = 0.654440 
+Either_Row_CoL_Bus_Util = 0.754051 
+Issued_on_Two_Bus_Simul_Util = 0.206239 
+issued_two_Eff = 0.273508 
+queue_avg = 96.819946 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=96.8199
+Memory Partition 4: 
+Cache L2_bank_008:
+MSHR contents
+
+Cache L2_bank_009:
+MSHR contents
+
+In Dram Latency Queue (total = 0): 
+DRAM[4]: 16 bks, busW=32 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=220448 n_nop=53833 n_act=33463 n_pre=33447 n_ref_event=0 n_req=126130 n_rd=92794 n_rd_L2_A=0 n_write=0 n_wr_bk=52886 bw_util=0.6608
+n_activity=215295 dram_eff=0.6767
+bk0: 6362a 58156i bk1: 5790a 68691i bk2: 5818a 61343i bk3: 5818a 66119i bk4: 5876a 62727i bk5: 5821a 66652i bk6: 5794a 62939i bk7: 5761a 66426i bk8: 5736a 60363i bk9: 5691a 66707i bk10: 5652a 61922i bk11: 5636a 68816i bk12: 5742a 60237i bk13: 5726a 65108i bk14: 5791a 59374i bk15: 5780a 65887i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.734694
+Row_Buffer_Locality_read = 0.828200
+Row_Buffer_Locality_write = 0.474412
+Bank_Level_Parallism = 12.384504
+Bank_Level_Parallism_Col = 8.744139
+Bank_Level_Parallism_Ready = 3.067195
+write_to_read_ratio_blp_rw_average = 0.599564
+GrpLevelPara = 3.633775 
+
+BW Util details:
+bwutil = 0.660836 
+total_CMD = 220448 
+util_bw = 145680 
+Wasted_Col = 62614 
+Wasted_Row = 4216 
+Idle = 7938 
+
+BW Util Bottlenecks: 
+RCDc_limit = 51783 
+RCDWRc_limit = 54194 
+WTRc_limit = 67327 
+RTWc_limit = 362607 
+CCDLc_limit = 67820 
+rwq = 0 
+CCDLc_limit_alone = 32755 
+WTRc_limit_alone = 61230 
+RTWc_limit_alone = 333639 
+
+Commands details: 
+total_CMD = 220448 
+n_nop = 53833 
+Read = 92794 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 52886 
+n_act = 33463 
+n_pre = 33447 
+n_ref = 0 
+n_req = 126130 
+total_req = 145680 
+
+Dual Bus Interface Util: 
+issued_total_row = 66910 
+issued_total_col = 145680 
+Row_Bus_Util =  0.303518 
+CoL_Bus_Util = 0.660836 
+Either_Row_CoL_Bus_Util = 0.755802 
+Issued_on_Two_Bus_Simul_Util = 0.208553 
+issued_two_Eff = 0.275936 
+queue_avg = 104.907104 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=128 avg=104.907
+
+========= L2 cache stats =========
+L2_cache_bank[0]: Access = 101170, Miss = 98394, Miss_rate = 0.973, Pending_hits = 521, Reservation_fails = 20295
+L2_cache_bank[1]: Access = 98861, Miss = 98293, Miss_rate = 0.994, Pending_hits = 460, Reservation_fails = 24966
+L2_cache_bank[2]: Access = 101438, Miss = 98437, Miss_rate = 0.970, Pending_hits = 806, Reservation_fails = 39516
+L2_cache_bank[3]: Access = 99112, Miss = 98401, Miss_rate = 0.993, Pending_hits = 576, Reservation_fails = 37161
+L2_cache_bank[4]: Access = 100643, Miss = 98249, Miss_rate = 0.976, Pending_hits = 842, Reservation_fails = 30785
+L2_cache_bank[5]: Access = 98849, Miss = 98053, Miss_rate = 0.992, Pending_hits = 633, Reservation_fails = 26947
+L2_cache_bank[6]: Access = 100632, Miss = 98402, Miss_rate = 0.978, Pending_hits = 943, Reservation_fails = 41977
+L2_cache_bank[7]: Access = 98855, Miss = 98125, Miss_rate = 0.993, Pending_hits = 551, Reservation_fails = 31192
+L2_cache_bank[8]: Access = 100915, Miss = 99168, Miss_rate = 0.983, Pending_hits = 1157, Reservation_fails = 39160
+L2_cache_bank[9]: Access = 99103, Miss = 98415, Miss_rate = 0.993, Pending_hits = 558, Reservation_fails = 23877
+L2_total_cache_accesses = 999578
+L2_total_cache_misses = 983937
+L2_total_cache_miss_rate = 0.9844
+L2_total_cache_pending_hits = 7047
+L2_total_cache_reservation_fails = 315876
+L2_total_cache_breakdown:
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 1753
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 5316
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 140238
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 159585
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 318737
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT] = 432
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 6
+	L2_cache_stats_breakdown[CONST_ACC_R][MISS] = 1
+	L2_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 117
+	L2_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 1
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 187
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 195
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 166059
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 132156
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 357853
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT] = 6222
+	L2_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 1530
+	L2_cache_stats_breakdown[INST_ACC_R][MISS] = 262
+	L2_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 24018
+	L2_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 786
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 466044
+	L2_cache_stats_breakdown[CONST_ACC_R][TOTAL_ACCESS] = 440
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 524294
+	L2_cache_stats_breakdown[INST_ACC_R][TOTAL_ACCESS] = 8800
+L2_total_cache_reservation_fail_breakdown:
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][LINE_ALLOC_FAIL] = 156478
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][MISS_QUEUE_FULL] = 4
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][MSHR_ENRTY_FAIL] = 2254
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 849
+	L2_cache_stats_fail_breakdown[CONST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 117
+	L2_cache_stats_fail_breakdown[GLOBAL_ACC_W][LINE_ALLOC_FAIL] = 132156
+	L2_cache_stats_fail_breakdown[INST_ACC_R][LINE_ALLOC_FAIL] = 550
+	L2_cache_stats_fail_breakdown[INST_ACC_R][MSHR_MERGE_ENRTY_FAIL] = 23468
+L2_cache_data_port_util = 0.093
+L2_cache_fill_port_util = 0.143
+
+icnt_total_pkts_mem_to_simt=999578
+icnt_total_pkts_simt_to_mem=992758
+LD_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ST_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+----------------------------Interconnect-DETAILS--------------------------------
+-------TP Traffic Pattern Stats, Kernel 1 -------------------------------
+TP MC NODE:	110	111	112	113	114	115	116	117	118	119	
+TP Node 0:	270	268	236	234	256	259	237	233	247	244	0	
+TP Node 1:	243	240	251	243	260	260	238	236	264	257	0	
+TP Node 2:	246	249	271	268	236	237	257	254	238	232	0	
+TP Node 3:	272	270	238	232	239	241	265	265	241	236	0	
+TP Node 4:	242	243	247	247	264	265	250	242	254	248	0	
+TP Node 5:	237	235	276	269	228	230	258	250	254	248	0	
+TP Node 6:	248	249	254	248	236	232	276	276	238	240	0	
+TP Node 7:	251	250	254	251	256	257	236	231	256	252	0	
+TP Node 8:	230	235	267	259	236	237	242	238	282	279	0	
+TP Node 9:	243	243	255	252	244	246	260	260	247	243	0	
+TP Node 10:	270	270	238	235	256	258	240	236	255	245	0	
+TP Node 11:	245	243	248	245	260	261	239	235	264	256	0	
+TP Node 12:	246	246	272	266	236	238	257	249	238	232	0	
+TP Node 13:	269	269	238	234	236	239	267	262	237	235	0	
+TP Node 14:	242	241	250	245	264	264	247	242	253	246	0	
+TP Node 15:	234	234	276	270	228	229	256	252	255	250	0	
+TP Node 16:	245	246	253	248	236	232	276	276	240	237	0	
+TP Node 17:	251	248	257	256	256	257	233	232	260	255	0	
+TP Node 18:	232	231	264	261	236	237	239	241	282	276	0	
+TP Node 19:	242	241	255	252	244	246	260	260	248	244	0	
+TP Node 20:	269	269	238	234	256	259	239	236	253	242	0	
+TP Node 21:	244	241	247	248	260	260	238	244	264	257	0	
+TP Node 22:	244	245	272	268	238	238	256	253	238	235	0	
+TP Node 23:	268	268	238	231	236	240	266	260	239	237	0	
+TP Node 24:	240	240	251	245	265	264	251	244	253	248	0	
+TP Node 25:	233	234	274	272	228	230	256	252	253	251	0	
+TP Node 26:	245	249	250	248	240	234	278	272	237	236	0	
+TP Node 27:	250	249	256	250	260	256	240	229	258	258	0	
+TP Node 28:	230	232	262	258	240	236	236	237	284	280	0	
+TP Node 29:	239	238	258	252	248	245	260	257	249	246	0	
+TP Node 30:	270	268	238	236	258	261	236	232	250	247	0	
+TP Node 31:	240	244	247	242	260	262	236	236	263	260	0	
+TP Node 32:	250	248	272	265	238	241	252	255	240	236	0	
+TP Node 33:	269	270	239	232	243	237	266	261	236	240	0	
+TP Node 34:	241	240	246	244	268	264	249	240	254	253	0	
+TP Node 35:	233	232	276	268	230	229	255	249	252	250	0	
+TP Node 36:	246	247	251	245	238	232	278	272	239	236	0	
+TP Node 37:	250	249	256	250	256	258	236	228	257	254	0	
+TP Node 38:	228	231	262	258	236	238	240	234	280	278	0	
+TP Node 39:	242	240	255	251	246	248	260	257	246	243	0	
+TP Node 40:	268	268	239	232	259	258	236	234	253	246	0	
+TP Node 41:	243	243	250	248	260	260	242	242	263	259	0	
+TP Node 42:	252	247	274	268	237	241	254	254	240	236	0	
+TP Node 43:	268	269	238	236	240	241	268	264	245	241	0	
+TP Node 44:	242	241	246	243	268	264	246	241	254	250	0	
+TP Node 45:	237	234	274	268	230	230	255	250	254	252	0	
+TP Node 46:	248	247	252	246	235	232	277	272	242	237	0	
+TP Node 47:	248	250	257	246	258	260	232	230	263	254	0	
+TP Node 48:	229	229	262	252	239	237	239	233	283	276	0	
+TP Node 49:	243	239	255	249	249	247	262	256	252	244	0	
+TP Node 50:	348	325	318	301	336	350	326	326	306	335	0	
+TP Node 51:	242	241	246	238	260	261	239	236	260	256	0	
+TP Node 52:	245	245	273	268	238	240	252	253	240	234	0	
+TP Node 53:	269	269	238	232	241	238	266	262	243	239	0	
+TP Node 54:	242	240	248	240	267	266	246	244	254	248	0	
+TP Node 55:	425	458	507	479	480	461	480	463	465	454	0	
+TP Node 56:	403	371	417	373	382	379	417	410	370	379	0	
+TP Node 57:	437	456	460	405	458	431	409	414	469	433	0	
+TP Node 58:	517	483	512	504	481	453	498	453	563	539	0	
+TP Node 59:	515	489	504	519	516	470	532	466	505	487	0	
+TP Node 60:	527	545	476	488	496	506	497	458	543	470	0	
+TP Node 61:	521	464	506	455	514	507	455	538	480	566	0	
+TP Node 62:	485	444	482	503	441	484	461	480	436	458	0	
+TP Node 63:	521	507	497	464	508	471	534	518	470	504	0	
+TP Node 64:	395	421	435	398	455	445	428	420	432	411	0	
+TP Node 65:	514	498	514	486	466	453	495	528	519	527	0	
+TP Node 66:	608	547	599	525	548	558	580	634	560	607	0	
+TP Node 67:	582	575	543	566	552	557	564	523	596	570	0	
+TP Node 68:	639	555	675	584	621	585	586	580	598	659	0	
+TP Node 69:	547	568	546	606	574	591	640	554	569	579	0	
+TP Node 70:	773	795	751	771	729	790	655	755	722	764	0	
+TP Node 71:	714	666	650	684	695	696	741	630	698	712	0	
+TP Node 72:	643	667	648	691	602	707	636	692	648	630	0	
+TP Node 73:	622	542	550	561	538	560	598	560	566	525	0	
+TP Node 74:	525	590	543	593	577	635	597	566	603	539	0	
+TP Node 75:	516	462	525	518	495	459	535	478	496	518	0	
+TP Node 76:	489	484	473	508	493	490	519	553	484	497	0	
+TP Node 77:	740	752	787	749	799	785	709	786	776	769	0	
+TP Node 78:	855	741	833	841	830	840	856	782	867	828	0	
+TP Node 79:	861	737	854	806	833	800	816	810	799	813	0	
+TP Node 80:	934	906	908	941	931	985	901	925	806	984	0	
+TP Node 81:	966	978	931	928	980	1003	929	1041	1034	1053	0	
+TP Node 82:	861	879	889	935	839	992	883	924	871	830	0	
+TP Node 83:	949	940	920	911	885	898	927	870	887	885	0	
+TP Node 84:	805	881	799	844	798	894	796	898	812	898	0	
+TP Node 85:	742	825	793	827	695	782	738	813	841	741	0	
+TP Node 86:	666	784	697	785	790	709	828	756	773	693	0	
+TP Node 87:	832	682	764	747	744	788	782	683	735	740	0	
+TP Node 88:	1079	1239	1147	1275	1229	1227	1231	1247	1302	1196	0	
+TP Node 89:	1219	1296	1279	1324	1240	1243	1250	1184	1282	1193	0	
+TP Node 90:	1256	1299	1161	1278	1145	1295	1214	1212	1204	1279	0	
+TP Node 91:	1260	1202	1280	1212	1341	1222	1190	1272	1182	1321	0	
+TP Node 92:	1290	1220	1330	1197	1338	1219	1283	1288	1249	1254	0	
+TP Node 93:	1269	1295	1246	1255	1235	1218	1303	1180	1237	1246	0	
+TP Node 94:	1203	1286	1173	1330	1233	1300	1196	1263	1303	1181	0	
+TP Node 95:	1211	1200	1276	1176	1257	1205	1240	1264	1229	1263	0	
+TP Node 96:	1170	1092	1178	1033	1093	1042	1110	1127	1145	1088	0	
+TP Node 97:	996	1002	1025	991	1037	972	1001	971	1004	1007	0	
+TP Node 98:	931	987	1045	983	983	1020	964	1009	1061	989	0	
+TP Node 99:	1490	1407	1519	1442	1529	1452	1584	1516	1499	1531	0	
+TP Node 100:	1486	1657	1472	1574	1445	1480	1475	1398	1526	1475	0	
+TP Node 101:	1498	1561	1549	1506	1529	1497	1500	1451	1519	1525	0	
+TP Node 102:	1691	1528	1629	1639	1551	1572	1601	1499	1571	1614	0	
+TP Node 103:	1695	1662	1738	1576	1730	1577	1647	1706	1691	1646	0	
+TP Node 104:	1591	1510	1573	1557	1602	1677	1587	1628	1540	1637	0	
+TP Node 105:	1439	1508	1512	1575	1472	1523	1535	1472	1495	1441	0	
+TP Node 106:	1477	1429	1514	1483	1490	1410	1506	1494	1392	1469	0	
+TP Node 107:	1184	1364	1233	1265	1259	1230	1269	1254	1380	1206	0	
+TP Node 108:	1235	1260	1307	1243	1254	1174	1180	1258	1339	1238	0	
+TP Node 109:	1231	1285	1253	1239	1268	1235	1322	1258	1291	1269	0	
+TP Node 110:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 111:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 112:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 113:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 114:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 115:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 116:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 117:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 118:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 119:	0	0	0	0	0	0	0	0	0	0	0	
+TP Node 120:	0	0	0	0	0	0	0	0	0	0	0	
+-------TP Kernel 1 ENDS -------------------------------------------------
+Class 0:
+Packet latency average = 4726.36
+	minimum = 8
+	maximum = 176148
+Network latency average = 4627.81
+	minimum = 8
+	maximum = 176143
+Slowest packet = 815681
+Flit latency average = 4627.81
+	minimum = 8
+	maximum = 176143
+Slowest flit = 815687
+Fragmentation average = 0
+	minimum = 0
+	maximum = 0
+Injected packet rate average = 0.0502332
+	minimum = 0 (at node 120)
+	maximum = 0.311789 (at node 118)
+Accepted packet rate average = 0.0502332
+	minimum = 0 (at node 120)
+	maximum = 0.306005 (at node 112)
+Injected flit rate average = 0.0502332
+	minimum = 0 (at node 120)
+	maximum = 0.311789 (at node 118)
+Accepted flit rate average= 0.0502332
+	minimum = 0 (at node 120)
+	maximum = 0.306005 (at node 112)
+Injected packet length average = 1
+Accepted packet length average = 1
+Total in-flight flits = 0 (0 measured)
+====== Overall Traffic Statistics ======
+Request Flits: 639118
+Reply Flits: 641758
+====== Traffic class 0 ======
+Packet latency average = 3743.58 (2 samples)
+	minimum = 8 (2 samples)
+	maximum = 122140 (2 samples)
+Network latency average = 3622.69 (2 samples)
+	minimum = 8 (2 samples)
+	maximum = 122116 (2 samples)
+Flit latency average = 3622.69 (2 samples)
+	minimum = 8 (2 samples)
+	maximum = 122116 (2 samples)
+Fragmentation average = 0 (2 samples)
+	minimum = 0 (2 samples)
+	maximum = 0 (2 samples)
+Injected packet rate average = 0.0518383 (2 samples)
+	minimum = 0 (2 samples)
+	maximum = 0.325986 (2 samples)
+Accepted packet rate average = 0.0518383 (2 samples)
+	minimum = 0 (2 samples)
+	maximum = 0.316095 (2 samples)
+Injected flit rate average = 0.0518383 (2 samples)
+	minimum = 0 (2 samples)
+	maximum = 0.325986 (2 samples)
+Accepted flit rate average = 0.0518383 (2 samples)
+	minimum = 0 (2 samples)
+	maximum = 0.316095 (2 samples)
+Injected packet size average = 1 (2 samples)
+Accepted packet size average = 1 (2 samples)
+Hops average = 8.39068 (2 samples)
+----------------------------END-of-Interconnect-DETAILS-------------------------
+
+
+gpgpu_simulation_time = 0 days, 1 hrs, 16 min, 42 sec (4602 sec)
+gpgpu_simulation_rate = 35103 (inst/sec)
+gpgpu_simulation_rate = 69 (cycle/sec)
+Training done
+GPGPU-Sim: *** exit detected ***
